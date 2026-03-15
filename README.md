@@ -1,44 +1,73 @@
 # Secret Shredder
 
-Static front-end concept for **secretshredder.com**.
+Premium static launch site for **secretshredder.com**.
 
-## Stack
-- Plain HTML/CSS/JS
-- Static-host friendly
-- Designed for Cloudflare Pages
+## What changed
+This repo is now positioned as a launch-ready front-end rather than a rough prototype.
 
-## What this is
-A fast-launch prototype for a novelty micro-product:
-- user types a secret/regret/cringe memory
-- pays a small amount (suggested: $2)
-- watches it get shredded
+### Upgrades in this overhaul
+- stronger premium/editorial landing page layout
+- vertically centered desktop hero with cleaner hierarchy
+- richer interactive shredding demo with strips, confetti, status states, and reveal motion
+- upgraded mascot-style logo direction for future 3D/character development
+- copy aligned to a real launch path: **Stripe API + Cloudflare Workers + Breevo/SMTP**
+- launch form framed for real delivery instead of a fake placeholder feel
+- improved FAQ, positioning, and architecture sections
 
-## Current status
-This repo currently includes:
-- landing page
-- logo + favicon assets
-- animated shredder demo
-- waitlist form placeholder
-- positioning copy for launch
+## Recommended production architecture
+### Front-end
+- **Cloudflare Pages** for the static site
 
-## Next integration steps
-1. Connect repo to GitHub
-2. Connect GitHub repo to Cloudflare Pages
-3. Set custom domain `secretshredder.com`
-4. Replace placeholder waitlist form with a real endpoint
-5. Add Stripe payment link / checkout flow
-6. Add privacy + terms pages
-7. Add real post-payment shred flow
+### Server-side endpoints
+- **Cloudflare Workers** for:
+  - `POST /api/launch` to validate waitlist form submissions
+  - `POST /api/create-checkout-session` to create Stripe Checkout Sessions
+  - optional moderation / PII filtering before allowing a paid shred
+
+### Payments
+- **Stripe API**
+  - create Checkout Sessions server-side
+  - use webhooks for confirmation and fulfilment events
+  - expand later into bundles, upsells, coupons, and premium effects
+
+### Email / forms
+- **Breevo SMTP** (or equivalent SMTP provider)
+  - send launch form notifications
+  - optionally send subscriber confirmations
+  - optionally relay into a CRM/list tool later
+
+## Environment variables still needed for production
+### Stripe
+- `STRIPE_SECRET_KEY`
+- `STRIPE_PRICE_ID`
+- `STRIPE_WEBHOOK_SECRET`
+- optional: `STRIPE_PUBLISHABLE_KEY`
+
+### Breevo / SMTP
+- `SMTP_HOST`
+- `SMTP_PORT`
+- `SMTP_USERNAME`
+- `SMTP_PASSWORD`
+- `SMTP_FROM_EMAIL`
+- `LAUNCH_INBOX_EMAIL`
+
+### App / Cloudflare
+- `PUBLIC_SITE_URL`
+- optional: `TURNSTILE_SECRET_KEY`
+- optional: analytics / event tracking keys
 
 ## Local dev
-Open `index.html` directly, or use any simple static server.
+Because this is static HTML/CSS/JS, you can run it with any simple local server.
 
-Example:
 ```bash
+cd /home/mark/.openclaw/workspace/secretshredder
 python3 -m http.server 8080
 ```
 
-## Suggested launch messaging
-- Confess it. Shred it. Move on.
-- A tiny internet ritual for bad decisions.
-- Cheaper than therapy. Worse than prayer. Better than texting your ex.
+Then open:
+- `http://localhost:8080`
+
+## Notes
+- The current form is still demo-mode on the front-end until a Worker endpoint is added.
+- The current shred interaction is front-end only; it does not store or process secrets server-side.
+- Privacy/terms pages were upgraded, but still need final legal review before public launch.

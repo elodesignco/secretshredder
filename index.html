@@ -3,180 +3,293 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Secret Shredder — Confess it. Shred it. Move on.</title>
+    <title>Secret Shredder — Pay. Confess. Watch it disappear.</title>
     <meta
       name="description"
-      content="An anonymous little ritual for secrets, regrets, and cringe memories. Type it. Pay a couple of bucks. Watch it get shredded."
+      content="A premium anonymous ritual for secrets, regrets, awkward memories, and bad decisions. Pay a tiny toll, feed the shredder, and get instant internet catharsis."
     />
     <meta property="og:title" content="Secret Shredder" />
-    <meta property="og:description" content="Confess it. Shred it. Move on." />
+    <meta property="og:description" content="Pay. Confess. Watch it disappear." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="./assets/logo-mark.svg" />
+    <meta property="og:image" content="https://secretshredder.com/assets/logo-mark.svg" />
+    <meta name="theme-color" content="#090b11" />
     <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <div class="page-glow glow-left"></div>
+    <div class="page-glow glow-right"></div>
     <div class="noise"></div>
+
     <header class="site-header wrap">
       <a class="brand" href="#top" aria-label="Secret Shredder home">
         <img src="./assets/logo-mark.svg" alt="Secret Shredder logo" />
-        <span>Secret Shredder</span>
+        <div>
+          <strong>Secret Shredder</strong>
+          <span>anonymous internet catharsis</span>
+        </div>
       </a>
       <nav>
-        <a href="#how">How it works</a>
+        <a href="#ritual">Ritual</a>
+        <a href="#launch">Launch</a>
         <a href="#faq">FAQ</a>
-        <a href="#launch" class="btn btn-ghost">Get launch updates</a>
+        <a class="btn btn-ghost" href="#launch">Get early access</a>
       </nav>
     </header>
 
     <main id="top">
       <section class="hero wrap">
-        <div class="hero-copy">
-          <p class="eyebrow">anonymous • absurd • weirdly relieving</p>
-          <h1>Confess it.<br />Shred it.<br />Move on.</h1>
-          <p class="lede">
-            A tiny internet ritual for secrets, regrets, cringe moments, and things you never
-            should’ve texted. Type it in, pay a couple of bucks, and watch it get shredded.
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#launch">Join the launch list</a>
-            <a class="btn btn-secondary" href="#demo">See the demo</a>
+        <div class="hero-shell">
+          <div class="hero-copy reveal">
+            <p class="eyebrow">launch-ready • stripe-first • cloudflare-friendly</p>
+            <h1>Pay.<br />Confess.<br />Watch it disappear.</h1>
+            <p class="lede">
+              Secret Shredder turns bad decisions into a premium little ritual. Type the secret,
+              pay the tiny toll, and feed it into a gloriously overbuilt digital shredder that makes
+              shame feel oddly cinematic.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#launch">Join the launch list</a>
+              <a class="btn btn-secondary" href="#demo">Try the shredder demo</a>
+            </div>
+
+            <ul class="micro-points">
+              <li>Anonymous by design</li>
+              <li>Stripe API from day one</li>
+              <li>SMTP/Breevo-backed forms from day one</li>
+            </ul>
           </div>
-          <ul class="micro-points">
-            <li>Anonymous by default</li>
-            <li>Impulse-buy friendly</li>
-            <li>Built for laughs, closure, and internet catharsis</li>
+
+          <div class="hero-stage reveal" id="demo" aria-label="Interactive Secret Shredder demo">
+            <div class="status-bar">
+              <span class="status-pill live">Live concept</span>
+              <span class="status-pill">Launch funnel ready</span>
+              <span class="status-pill">Premium motion system</span>
+            </div>
+
+            <div class="machine-frame">
+              <div class="machine-top">
+                <div class="machine-screen">
+                  <span class="machine-screen-label">shred status</span>
+                  <strong id="machineStatus">Awaiting confession</strong>
+                </div>
+                <div class="price-chip">from $2 / shred</div>
+              </div>
+
+              <div class="shredder-card">
+                <div class="paper-slot"></div>
+                <div class="shredder-glow"></div>
+                <div class="paper-stack"></div>
+                <div class="paper" id="paper" aria-live="polite">
+                  <span class="paper-kicker">confidential submission</span>
+                  <p id="secret-preview">“I waved back at someone who absolutely wasn’t waving at me.”</p>
+                  <div class="paper-meta">
+                    <span>anonymous</span>
+                    <span>one-time ritual</span>
+                    <span>queued for destruction</span>
+                  </div>
+                </div>
+                <div class="blade-row"></div>
+                <div class="shred-strip-bed" id="stripBed"></div>
+                <div class="confetti" id="confetti"></div>
+              </div>
+
+              <div class="demo-panel">
+                <label class="field-label" for="secretInput">Type a confession</label>
+                <textarea
+                  id="secretInput"
+                  maxlength="220"
+                  placeholder="I accidentally liked their 2018 photo at 1:14am..."
+                ></textarea>
+                <div class="demo-meta">
+                  <span id="charCount">0 / 220</span>
+                  <span>No names. No identifying details. Keep it spicy, not dangerous.</span>
+                </div>
+                <div class="demo-actions">
+                  <button class="btn btn-primary" id="shredButton" type="button">Shred this secret</button>
+                  <button class="btn btn-secondary" id="sampleButton" type="button">Load another sample</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="trust wrap reveal">
+        <article>
+          <span>01</span>
+          <h3>Paid novelty with actual conversion logic</h3>
+          <p>A low-friction impulse purchase, not a vague “join a waitlist and maybe someday” idea.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Cloudflare-native architecture</h3>
+          <p>Static Pages front-end, Worker endpoints, Stripe API checkout, and SMTP delivery without heavy infrastructure.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Made to be filmed, clipped, and shared</h3>
+          <p>The motion language is part of the product. The destruction moment is the ad.</p>
+        </article>
+      </section>
+
+      <section class="ritual wrap reveal" id="ritual">
+        <div class="section-heading centered">
+          <p class="eyebrow">the ritual</p>
+          <h2>A joke product with serious finish</h2>
+          <p>
+            This should feel less like a novelty landing page and more like a tiny luxury machine on the internet.
+            Clean, center-aligned, confident, a bit theatrical, and built to convert from the first visit.
+          </p>
+        </div>
+
+        <div class="ritual-grid">
+          <article>
+            <strong>1. Buy the shred</strong>
+            <p>Use Stripe Checkout via API so the experience can evolve beyond bare payment links immediately.</p>
+          </article>
+          <article>
+            <strong>2. Enter the confession</strong>
+            <p>Collect only what’s needed, set content boundaries, and keep storage transient wherever possible.</p>
+          </article>
+          <article>
+            <strong>3. Trigger the moment</strong>
+            <p>Animation, sound, strips, glow, and finality. The destruction moment is the emotional payoff.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="architecture wrap reveal">
+        <div class="section-heading centered">
+          <p class="eyebrow">launch stack</p>
+          <h2>Designed for day-one operations, not just mockups</h2>
+        </div>
+
+        <div class="stack-grid">
+          <article>
+            <h3>Cloudflare Pages + Workers</h3>
+            <p>Serve the front-end globally, keep TTFB sharp, and use Worker endpoints for launch form capture and secure checkout session creation.</p>
+          </article>
+          <article>
+            <h3>Stripe API</h3>
+            <p>Create Checkout Sessions server-side, support promo codes, track conversion events, and leave room for bundles and upsells later.</p>
+          </article>
+          <article>
+            <h3>Breevo / SMTP forms</h3>
+            <p>Send launch entries and internal notifications through SMTP from day one instead of pretending the form is wired.</p>
+          </article>
+          <article>
+            <h3>Content safety rails</h3>
+            <p>Filter obvious PII and prohibited content, discourage names, and keep the product clearly in novelty territory.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="logo-direction wrap reveal">
+        <div class="logo-copy">
+          <p class="eyebrow">brand direction</p>
+          <h2>A little mascot. A little menace. A lot more iconic.</h2>
+          <p>
+            The visual direction should lean toward a polished 3D “paper eater” personality: not childish, not tech-bro sterile,
+            but memorable enough that screenshots and clips instantly read as Secret Shredder.
+          </p>
+          <ul>
+            <li>Rounded industrial silhouette</li>
+            <li>Warm paper tones against dark steel</li>
+            <li>Expressive slot / “mouth” treatment</li>
+            <li>Easy to translate into future 3D renders or motion loops</li>
           </ul>
         </div>
+        <div class="logo-card" aria-label="Secret Shredder character mark concept">
+          <img src="./assets/logo-mark.svg" alt="Secret Shredder character-style logo mark" />
+          <p>Updated mark direction: premium machine face, glowing slot, paper strip beard, and stronger mascot energy.</p>
+        </div>
+      </section>
 
-        <div class="hero-demo" id="demo" aria-label="Animated shredder demo">
-          <div class="shredder-card">
-            <div class="paper-slot"></div>
-            <div class="paper" id="paper">
-              <p id="secret-preview">“I said ‘you too’ when the waiter told me to enjoy the movie.”</p>
-            </div>
-            <div class="blades"></div>
-            <div class="confetti" id="confetti"></div>
+      <section class="launch wrap reveal" id="launch">
+        <div class="section-heading centered">
+          <p class="eyebrow">early access</p>
+          <h2>Want first access when the shredder opens?</h2>
+          <p>
+            This form is now framed for a real SMTP-backed path. On production, a Cloudflare Worker should validate,
+            then send via Breevo SMTP and optionally fan out to your CRM.
+          </p>
+        </div>
+
+        <form class="launch-form" id="launchForm">
+          <div class="form-grid">
+            <label>
+              Email
+              <input type="email" name="email" placeholder="you@somewhere.com" required />
+            </label>
+            <label>
+              What would you most likely shred?
+              <select name="category" required>
+                <option value="">Choose one</option>
+                <option>Late-night text regret</option>
+                <option>Social cringe incident</option>
+                <option>Workplace chaos</option>
+                <option>Church-safe guilt</option>
+                <option>Petty thought I should not post</option>
+              </select>
+            </label>
           </div>
-          <div class="demo-controls">
-            <textarea id="secretInput" maxlength="180" placeholder="Type a secret, regret, or awkward memory…"></textarea>
-            <button class="btn btn-primary" id="shredButton" type="button">Shred this one</button>
+          <label>
+            Optional note
+            <input type="text" name="note" maxlength="120" placeholder="What would make this irresistible?" />
+          </label>
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Request launch access</button>
+            <p class="form-note" id="formFeedback">
+              Demo mode locally. Production path should POST to a Cloudflare Worker that sends through Breevo SMTP.
+            </p>
           </div>
-        </div>
-      </section>
-
-      <section class="proof wrap">
-        <article>
-          <strong>Simple offer</strong>
-          <p>$2 to shred one secret. Cheap enough to be silly. Real enough to convert.</p>
-        </article>
-        <article>
-          <strong>Built for social</strong>
-          <p>Great for weird posts, demo clips, anonymous confessions, and shareable rituals.</p>
-        </article>
-        <article>
-          <strong>Static-site friendly</strong>
-          <p>Cloudflare Pages can host the whole front-end. Payments can be Stripe links at first.</p>
-        </article>
-      </section>
-
-      <section class="how wrap" id="how">
-        <div class="section-heading">
-          <p class="eyebrow">how it works</p>
-          <h2>The world’s tiniest emotional support product</h2>
-        </div>
-        <div class="steps">
-          <article>
-            <span>01</span>
-            <h3>Type the secret</h3>
-            <p>Keep it anonymous. Keep it weird. Keep it short enough to fit on a tiny digital confession slip.</p>
-          </article>
-          <article>
-            <span>02</span>
-            <h3>Pay the toll</h3>
-            <p>Start simple with Stripe Payment Links. Fast setup, low friction, and no custom backend required on day one.</p>
-          </article>
-          <article>
-            <span>03</span>
-            <h3>Watch it vanish</h3>
-            <p>The ritual is the product: animation, sound, finality, and one little moment of “well… that’s dealt with.”</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="positioning wrap">
-        <div>
-          <p class="eyebrow">why this can work</p>
-          <h2>It’s not therapy. It’s cheaper, stranger, and way more online.</h2>
-        </div>
-        <div class="positioning-grid">
-          <article>
-            <h3>Novelty</h3>
-            <p>People will try it because it’s funny.</p>
-          </article>
-          <article>
-            <h3>Catharsis</h3>
-            <p>People will share it because it weirdly feels good.</p>
-          </article>
-          <article>
-            <h3>Repeatability</h3>
-            <p>The content engine practically writes itself: secrets, shredding, reactions, rituals.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="launch wrap" id="launch">
-        <div class="section-heading">
-          <p class="eyebrow">launch waitlist</p>
-          <h2>Want first dibs when the shredder goes live?</h2>
-        </div>
-        <form class="launch-form" name="launch" netlify="false" data-static-form>
-          <label>
-            Email
-            <input type="email" name="email" placeholder="you@somewhere.com" required />
-          </label>
-          <label>
-            Optional confession category
-            <select name="category">
-              <option>Awkward</option>
-              <option>Breakup</option>
-              <option>Petty</option>
-              <option>Work drama</option>
-              <option>Church-safe guilt</option>
-              <option>Other chaos</option>
-            </select>
-          </label>
-          <button class="btn btn-primary" type="submit">Notify me</button>
-          <p class="form-note">For now this is a front-end prototype. Hook the form to your preferred collection tool later.</p>
         </form>
       </section>
 
-      <section class="faq wrap" id="faq">
-        <div class="section-heading">
+      <section class="faq wrap reveal" id="faq">
+        <div class="section-heading centered">
           <p class="eyebrow">faq</p>
-          <h2>Questions from the morally compromised</h2>
+          <h2>Questions from people with a lot going on</h2>
         </div>
         <div class="faq-list">
           <details>
-            <summary>Is it anonymous?</summary>
-            <p>That’s the intention. The launch version should avoid collecting unnecessary identifying info and keep the ritual lightweight.</p>
+            <summary>Is this anonymous?</summary>
+            <p>That’s the point. The experience should collect as little as possible, avoid unnecessary storage, and never ask for real names inside the ritual.</p>
           </details>
           <details>
-            <summary>Can this be hosted as a static site on Cloudflare?</summary>
-            <p>Yep. The front-end is fully static. Payments can start with Stripe links or a lightweight hosted checkout flow.</p>
+            <summary>Why not just use Stripe Payment Links?</summary>
+            <p>They’re fast, but the Stripe API gives better control over checkout, analytics, offers, post-payment flows, and future premium packs from day one.</p>
           </details>
           <details>
-            <summary>What’s the first monetisation model?</summary>
-            <p>Start with one cheap paid shred. Add upsells later: premium effects, bundles, breakup packs, printable “certificate of destruction,” etc.</p>
+            <summary>Can this run well behind Cloudflare?</summary>
+            <p>Yes. Static front-end on Pages, API endpoints in Workers, environment secrets in Cloudflare, and SMTP notifications for launch capture is a clean fit.</p>
+          </details>
+          <details>
+            <summary>What still needs wiring?</summary>
+            <p>Stripe keys, checkout endpoint, Breevo SMTP credentials, the destination email inbox, and any lightweight moderation rules or analytics you want in production.</p>
           </details>
         </div>
       </section>
     </main>
 
     <footer class="site-footer wrap">
-      <p>Secret Shredder — a tiny weird internet product.</p>
-      <p>Pipeline test: footer copy update deployed via Git push.</p>
-      <p><a href="https://secretshredder.com">secretshredder.com</a> • <a href="./privacy.html">Privacy</a> • <a href="./terms.html">Terms</a></p>
+      <div>
+        <p class="footer-brand">Secret Shredder</p>
+        <p>A tiny premium internet ritual for secrets, cringe, regret, and closure.</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://secretshredder.com">secretshredder.com</a>
+        <a href="./privacy.html">Privacy</a>
+        <a href="./terms.html">Terms</a>
+      </div>
     </footer>
 
     <script src="./script.js"></script>

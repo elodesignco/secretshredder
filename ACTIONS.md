@@ -1,59 +1,67 @@
-# Secret Shredder — Next actions for Mark
+# Secret Shredder — implementation plan and next actions
 
-## Do these now
+## Audit summary
+The original repo had a solid static prototype foundation but still felt like a concept page:
+- copy still referenced Payment Links instead of the desired Stripe API path
+- form behaviour was explicitly placeholder-level
+- layout was good, but not premium/editorial enough for launch or media clips
+- animation worked, but the shredding moment lacked standout character
+- legal pages were placeholders only
+- branding was clean but not yet mascot/character-driven
 
-### 1) Connect Cloudflare Pages
-- Create a new Cloudflare Pages project
-- Connect it to GitHub repo: `elodesignco/secretshredder`
-- Build command: **none**
-- Output directory: **/** (root)
-- Framework preset: **None / static HTML**
+## What this overhaul implemented
+### Front-end
+- rebuilt the homepage around a more polished, center-aligned, launch-ready hero
+- upgraded the visual system with deeper glass panels, glow, premium typography, and better spacing
+- reframed the product as a paid ritual, not a vague gimmick
 
-### 2) Point the domain
-- Attach custom domain: `secretshredder.com`
-- Add `www.secretshredder.com` if you want both
-- Ensure DNS is managed in Cloudflare or update nameservers/DNS accordingly
+### Motion / interaction
+- expanded the shredder demo with:
+  - machine status states
+  - rotating sample confessions
+  - animated paper strips
+  - confetti burst
+  - section reveal motion
+- improved microcopy during interaction so the demo feels productised
 
-### 3) Create the X account
-Recommended handle ideas:
-- `@secretshredder`
-- `@shredyoursecret`
-- `@secretshredderco`
+### Brand direction
+- replaced the mark with a stronger character/machine direction
+- pushed the logo toward a future 3D mascot treatment rather than a generic utility icon
 
-Recommended profile setup:
-- Name: **Secret Shredder**
-- Bio: **Confess it. Shred it. Move on. A tiny internet ritual for secrets, regrets, and bad decisions.**
-- Link: `https://secretshredder.com`
+### Launch architecture messaging
+- updated the entire site to align with:
+  - **Stripe API from day one**
+  - **SMTP/Breevo-backed forms from day one**
+  - **Cloudflare Pages + Workers** as the preferred deployment shape
 
-### 4) Prepare Stripe
-Fastest launch path:
-- Create a **Stripe Payment Link** for the first offer
-- Product name: **Shred One Secret**
-- Price test: **USD $2** or **AUD $3**
-- Keep checkout super simple for v1
+### Documentation
+- updated README with env vars and production architecture
+- upgraded privacy/terms pages from bare placeholders to more realistic launch-stage drafts
 
-### 5) Give me the rails later
-Once ready, the useful keys/access are:
-- X account credentials or delegated posting path
-- Cloudflare Pages / DNS access if you want me to manage iterations directly
-- Stripe access path for payment/product updates
+## Still needed before true production launch
+### Credentials / secrets
+- Stripe secret key, price ID, and webhook secret
+- Breevo/SMTP host, port, username, password, from email
+- destination inbox for launch submissions
+- public site URL / Cloudflare environment config
 
-## Recommended next build steps
+### Engineering follow-up
+- build a Cloudflare Worker for `/api/launch`
+- build a Cloudflare Worker for `/api/create-checkout-session`
+- wire Stripe webhook handling
+- optionally add Turnstile / abuse prevention
+- optionally add a lightweight moderation or PII warning pass
 
-### Product / site
-- Replace waitlist form with a real endpoint (MailerLite / ConvertKit / Tally / Formspree / custom)
-- Add a proper CTA button to Stripe checkout
-- Add a post-payment flow for entering the secret
-- Add privacy policy and terms pages
+### Business / policy follow-up
+- finalise legal copy with a proper privacy policy and terms review
+- decide exact price point and currency logic
+- decide whether secrets are transient-only, session-only, or stored briefly for fulfilment/audit
+- define prohibited content boundaries clearly
 
-### Social
-- Pin a launch post
-- Create 20-30 starter posts
-- Publish short demo clips of the shredding animation
-- Start reply-based distribution on X
-
-### Safety / trust
-- Don’t publish real identifying confessions
-- Don’t store unnecessary personal data
-- Keep content humorous and anonymous
-- Avoid anything defamatory, sexual, illegal, or personally identifying
+## Recommended order from here
+1. deploy updated front-end to Cloudflare Pages
+2. add Worker endpoint for launch form + Breevo SMTP
+3. add Worker endpoint for Stripe Checkout Session creation
+4. connect Stripe webhook flow
+5. test full paid shred funnel on the live domain
+6. create short launch clips from the new shred demo and brand mark
