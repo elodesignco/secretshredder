@@ -336,6 +336,12 @@ p {
   transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
 }
 .mode-tab:hover { transform: translateY(-1px); }
+.mode-tab:disabled {
+  cursor: default;
+}
+.mode-tab.is-demo-display:hover {
+  transform: none;
+}
 .mode-tab.active {
   background:
     linear-gradient(135deg, rgba(255, 107, 61, 0.22), rgba(255, 191, 95, 0.16)),
@@ -720,6 +726,18 @@ p {
   display: grid;
   gap: 12px;
 }
+.composer-shell {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+}
+.composer-shell.is-locked {
+  border-style: dashed;
+  opacity: 0.88;
+}
 .flow-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -763,7 +781,13 @@ select {
   color: var(--text);
   padding: 15px 16px;
   outline: none;
-  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease, opacity 180ms ease;
+}
+textarea:disabled,
+input:disabled,
+select:disabled {
+  opacity: 0.62;
+  cursor: not-allowed;
 }
 textarea:focus,
 input:focus,

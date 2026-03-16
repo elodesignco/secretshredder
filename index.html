@@ -6,12 +6,12 @@
     <title>Secret Shredder — Put it in the machine.</title>
     <meta
       name="description"
-      content="A ridiculously polished ritual for harmless regrets. Try the free demo, or unlock one real paid shred through Stripe checkout."
+      content="A ridiculously polished ritual for harmless regrets. Watch the free demo loop, or unlock one real paid shred through Stripe checkout."
     />
     <meta property="og:title" content="Secret Shredder — Put it in the machine." />
     <meta
       property="og:description"
-      content="Try the demo. Unlock the real paid shred when you're ready."
+      content="Watch the free demo loop. Unlock the real paid shred when you're ready."
     />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://secretshredder.com/assets/logo-mark.svg" />
@@ -54,32 +54,32 @@
           <div class="hero-copy reveal">
             <div class="meta-row">
               <span class="badge badge-live">Harmless cringe only</span>
-              <span class="badge">Demo first, paid unlock second</span>
+              <span class="badge">Looping demo, paid unlock second</span>
             </div>
             <p class="eyebrow">tiny ritual • luxury nonsense • no lectures</p>
             <h1>Put it in the machine.</h1>
             <p class="lede">
               Secret Shredder is a ridiculously polished little ceremony for harmless regrets.
-              Try the free demo to see the spectacle, then unlock one real paid shred through
-              Stripe when you want the full send-off.
+              Watch the free looping demo for the spectacle, then unlock one real paid shred
+              through Stripe when you want to put your own nonsense through the machine.
             </p>
 
             <div class="hero-actions">
-              <a class="btn btn-primary" href="#demo">Try the free demo</a>
+              <a class="btn btn-primary" href="#demo">Watch the free demo</a>
               <button class="btn btn-secondary" id="checkoutButton" type="button">Buy one paid shred</button>
               <a class="btn btn-ghost" href="#launch">Join early access</a>
             </div>
 
             <ul class="value-list">
-              <li><strong>Free demo:</strong> see the machine work before you pay</li>
-              <li><strong>Paid unlock:</strong> the real shred stays locked until Stripe confirms payment</li>
+              <li><strong>Free demo:</strong> a looping showcase of the shred styles</li>
+              <li><strong>Paid unlock:</strong> your own shred stays locked until Stripe confirms payment</li>
               <li><strong>Low-stakes only:</strong> keep out names, threats, revenge, and real harm</li>
             </ul>
           </div>
 
-          <div class="hero-stage reveal" id="demo" aria-label="Interactive Secret Shredder demo">
+          <div class="hero-stage reveal" id="demo" aria-label="Secret Shredder demo showcase">
             <div class="status-bar" aria-label="Product highlights">
-              <span class="badge badge-soft">Free demo preview</span>
+              <span class="badge badge-soft" id="demoLoopBadge">Looping free demo</span>
               <span class="badge badge-soft" id="paidStatusBadge">Paid shred locked</span>
               <span class="badge badge-soft">Four send-off styles</span>
             </div>
@@ -95,8 +95,8 @@
 
               <div class="mode-panel">
                 <div>
-                  <p class="panel-kicker">Choose a send-off</p>
-                  <p class="panel-note">Use the same machine for the free demo preview or your paid shred.</p>
+                  <p class="panel-kicker">Shred style showcase</p>
+                  <p class="panel-note" id="demoLoopNote">The free demo now just showcases each shred style on loop. Unlock the paid shred to type your own and run it for real.</p>
                 </div>
                 <div class="mode-tabs" role="tablist" aria-label="Shred styles">
                   <button class="mode-tab active" type="button" role="tab" aria-selected="true" data-mode="classic">
@@ -153,23 +153,13 @@
               </div>
 
               <div class="demo-panel">
-                <label class="field-label" for="secretInput">Your harmless little regret</label>
-                <textarea
-                  id="secretInput"
-                  maxlength="220"
-                  placeholder="I accidentally liked their 2018 photo at 1:14am..."
-                ></textarea>
-                <div class="demo-meta">
-                  <span id="charCount">0 / 220</span>
-                  <span>Keep it funny. Leave out names, threats, doxxing, and genuinely dark stuff.</span>
-                </div>
                 <div class="flow-grid">
                   <div class="flow-card">
                     <p class="flow-label">Free demo</p>
-                    <p class="flow-copy">See the animation right now. This does not unlock the paid shred.</p>
+                    <p class="flow-copy">Animation-only. The machine keeps looping through each send-off style so people can watch the spectacle before they buy.</p>
                     <div class="demo-actions">
-                      <button class="btn btn-primary" id="shredButton" type="button">Run the demo shred</button>
-                      <button class="btn btn-secondary" id="sampleButton" type="button">Load a sample</button>
+                      <button class="btn btn-primary" id="shredButton" type="button" disabled>Demo auto-playing below</button>
+                      <button class="btn btn-secondary" id="sampleButton" type="button" disabled>Samples rotate automatically</button>
                     </div>
                   </div>
                   <div class="flow-card" id="paid">
@@ -179,6 +169,20 @@
                       <button class="btn btn-secondary" id="launchCheckoutButton" type="button">Unlock with Stripe checkout</button>
                       <button class="btn btn-primary" id="paidShredButton" type="button" disabled>Use my paid shred</button>
                     </div>
+                  </div>
+                </div>
+
+                <div class="composer-shell" id="demoComposer">
+                  <label class="field-label" for="secretInput">Paid shred composer</label>
+                  <textarea
+                    id="secretInput"
+                    maxlength="220"
+                    placeholder="Free demo is a looping showcase. Unlock the paid shred to type your own."
+                    disabled
+                  ></textarea>
+                  <div class="demo-meta">
+                    <span id="charCount">0 / 220</span>
+                    <span id="composerHint">Free demo is animation-only.</span>
                   </div>
                 </div>
               </div>
@@ -191,7 +195,7 @@
         <article>
           <span class="proof-number">01</span>
           <h3>The free demo is honest</h3>
-          <p>Try the machine first. The preview is there to show the bit, not to give away the paid unlock.</p>
+          <p>The free side is now just a looping showcase. It lets people watch the bit without pretending they can run their own shred for free.</p>
         </article>
         <article>
           <span class="proof-number">02</span>
@@ -217,8 +221,8 @@
 
         <div class="ritual-grid">
           <article>
-            <strong>1. Try the free demo</strong>
-            <p>Type the harmless incident, choose a style, and preview the machine before spending a cent.</p>
+            <strong>1. Watch the free demo</strong>
+            <p>See the machine cycle through the different shred styles so you know what the spectacle looks like before spending a cent.</p>
           </article>
           <article>
             <strong>2. Pay to unlock the real shred</strong>
@@ -226,7 +230,7 @@
           </article>
           <article>
             <strong>3. Come back and use it</strong>
-            <p>After a successful return from Stripe, the paid shred unlocks on this device so you can run the real send-off.</p>
+            <p>After a successful return from Stripe, the paid shred unlocks on this device so you can type your own harmless regret and run the real send-off.</p>
           </article>
         </div>
       </section>
@@ -305,7 +309,7 @@
         <div class="faq-list">
           <details>
             <summary>What is free, and what is paid?</summary>
-            <p>The demo preview is free. The real shred stays locked until Stripe checkout succeeds and the return session is verified.</p>
+            <p>The looping demo preview is free. Typing your own regret and running the real shred stays locked until Stripe checkout succeeds and the return session is verified.</p>
           </details>
           <details>
             <summary>Is this anonymous?</summary>

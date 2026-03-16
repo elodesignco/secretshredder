@@ -23,6 +23,10 @@ const paperModeLabel = document.getElementById('paperModeLabel');
 const siteBanner = document.getElementById('siteBanner');
 const paidAccessNote = document.getElementById('paidAccessNote');
 const paidStatusBadge = document.getElementById('paidStatusBadge');
+const demoLoopBadge = document.getElementById('demoLoopBadge');
+const demoLoopNote = document.getElementById('demoLoopNote');
+const demoComposer = document.getElementById('demoComposer');
+const composerHint = document.getElementById('composerHint');
 
 const DEFAULT_SECRET = '“I waved back at someone who absolutely weren’t waving at me.”';
 const SAMPLE_SECRETS = [
@@ -32,6 +36,8 @@ const SAMPLE_SECRETS = [
   '“I checked whether my own message had been seen four times in ninety seconds.”',
   '“I laughed at a joke I did not understand because everyone else looked committed.”'
 ];
+const DEMO_MODE_SEQUENCE = ['classic', 'crosscut', 'incinerate', 'yeet'];
+const DEMO_LOOP_DELAY = 2600;
 
 const MODES = {
   classic: {
@@ -39,7 +45,7 @@ const MODES = {
     status: 'Classic shred selected',
     running: 'Feeding the rollers',
     complete: 'Gone in elegant little strips',
-    demoButton: 'Run the demo shred',
+    demoButton: 'Free demo auto-playing',
     paidButton: 'Use my paid shred',
     cardState: 'is-classic'
   },
@@ -48,7 +54,7 @@ const MODES = {
     status: 'Cross-cut selected',
     running: 'Cross-cutting the evidence',
     complete: 'Reduced to suspiciously festive squares',
-    demoButton: 'Run the demo cross-cut',
+    demoButton: 'Free demo auto-playing',
     paidButton: 'Use my paid cross-cut',
     cardState: 'is-crosscut'
   },
@@ -57,7 +63,7 @@ const MODES = {
     status: 'Incinerate selected',
     running: 'Applying dramatic fire',
     complete: 'Reduced to warm ash and poor choices',
-    demoButton: 'Run the demo incineration',
+    demoButton: 'Free demo auto-playing',
     paidButton: 'Use my paid incineration',
     cardState: 'is-incinerate'
   },
@@ -66,7 +72,7 @@ const MODES = {
     status: 'Void launch selected',
     running: 'Opening a tasteful little void',
     complete: 'Launched into the digital abyss',
-    demoButton: 'Run the demo void launch',
+    demoButton: 'Free demo auto-playing',
     paidButton: 'Use my paid void launch',
     cardState: 'is-yeet'
   }
@@ -74,6 +80,8 @@ const MODES = {
 
 let shredding = false;
 let sampleIndex = 0;
+let demoLoopIndex = 0;
+let demoLoopTimer = null;
 let currentMode = 'classic';
 let runtimeConfig = {
   checkoutEnabled: true,
@@ -84,6 +92,10 @@ let paidAccess = {
   sessionId: '',
   paymentStatus: ''
 };
+
+function isDemoLocked() {
+  return !paidAccess.unlocked;
+}
 
 function updatePreview(text) {
   preview.textContent = text.trim() || DEFAULT_SECRET;
@@ -234,6 +246,53 @@ function resetPaper() {
   shredderCard.classList.remove('is-classic', 'is-crosscut', 'is-incinerate', 'is-yeet');
 }
 
+function updateDemoUiState() {
+  const locked = isDemoLocked();
+  document.body.classList.toggle('demo-locked', locked);
+
+  if (button) {
+    button.disabled = true;
+    button.textContent = locked ? 'Demo auto-playing below' : 'Preview unlocked styles above';
+  }
+
+  if (sampleButton) {
+    sampleButton.disabled = true;
+  }
+
+  if (input) {
+    input.readOnly = locked;
+    input.disabled = locked;
+    input.placeholder = locked
+      ? 'Free demo is a looping showcase. Unlock the paid shred to type your own.'
+      : 'Type your harmless little regret here...';
+  }
+
+  modeTabs.forEach((tab) => {
+    tab.disabled = locked;
+    tab.classList.toggle('is-demo-display', locked);
+  });
+
+  if (demoLoopBadge) {
+    demoLoopBadge.textContent = locked ? 'Looping free demo' : 'Paid composer unlocked';
+  }
+
+  if (demoLoopNote) {
+    demoLoopNote.textContent = locked
+      ? 'The free demo now just showcases each shred style on loop. Unlock the paid shred to type your own and run it for real.'
+      : 'Paid session unlocked. Pick a style, type your harmless regret, then use your paid shred.';
+  }
+
+  if (composerHint) {
+    composerHint.textContent = locked
+      ? 'Free demo is animation-only.'
+      : 'Paid unlock lets you type and run your own shred.';
+  }
+
+  if (demoComposer) {
+    demoComposer.classList.toggle('is-locked', locked);
+  }
+}
+
 function syncPaidUi() {
   const unlocked = Boolean(paidAccess.unlocked);
   document.body.classList.toggle('paid-unlocked', unlocked);
@@ -253,6 +312,8 @@ function syncPaidUi() {
   if (paidShredButton) {
     paidShredButton.disabled = !unlocked;
   }
+
+  updateDemoUiState();
 }
 
 function applyMode(mode) {
@@ -270,15 +331,19 @@ function applyMode(mode) {
   setStatus(MODES[mode].status);
 }
 
-function finishShred() {
+function finishShred(source = 'demo') {
   preview.textContent = MODES[currentMode].complete;
-  setStatus('Ritual complete');
+  setStatus(source === 'paid' ? 'Paid shred complete' : 'Looping demo complete');
   resetPaper();
   shredderCard.classList.remove('is-busy');
   shredding = false;
+
+  if (source === 'demo' && isDemoLocked()) {
+    scheduleDemoLoop();
+  }
 }
 
-function runShred({ source = 'demo' } = {}) {
+function runShred({ source = 'demo', text } = {}) {
   if (shredding) return;
   if (source === 'paid' && !paidAccess.unlocked) {
     setBanner('The full paid shred is still locked. Finish checkout first, then come back through the Stripe success return.', 'error');
@@ -287,14 +352,14 @@ function runShred({ source = 'demo' } = {}) {
 
   shredding = true;
 
-  const text = input.value.trim() || DEFAULT_SECRET;
-  updatePreview(text.startsWith('“') ? text : `“${text.replace(/[“”]/g, '')}”`);
+  const nextText = (text || input.value || '').trim() || DEFAULT_SECRET;
+  updatePreview(nextText.startsWith('“') ? nextText : `“${nextText.replace(/[“”]/g, '')}”`);
   clearEffects();
   resetPaper();
   shredderCard.classList.add('is-busy', MODES[currentMode].cardState);
   void paper.offsetWidth;
 
-  setStatus(source === 'paid' ? `${MODES[currentMode].running} — paid session` : `${MODES[currentMode].running} — demo preview`);
+  setStatus(source === 'paid' ? `${MODES[currentMode].running} — paid session` : `${MODES[currentMode].running} — looping demo`);
 
   if (currentMode === 'classic') {
     paper.classList.add('shredding-classic');
@@ -321,19 +386,36 @@ function runShred({ source = 'demo' } = {}) {
   }
 
   setTimeout(() => {
-    finishShred();
+    finishShred(source);
     if (source === 'paid') {
       setBanner('Paid shred complete. Nicely done.', 'success');
     }
   }, 1800);
 }
 
-function loadSample() {
-  sampleIndex = (sampleIndex + 1) % SAMPLE_SECRETS.length;
-  input.value = SAMPLE_SECRETS[sampleIndex].replace(/[“”]/g, '');
-  updatePreview(`“${input.value}”`);
-  updateCount();
-  setStatus('Fresh nonsense loaded');
+function stopDemoLoop() {
+  if (demoLoopTimer) {
+    clearTimeout(demoLoopTimer);
+    demoLoopTimer = null;
+  }
+}
+
+function scheduleDemoLoop() {
+  stopDemoLoop();
+  if (!isDemoLocked()) return;
+  demoLoopTimer = window.setTimeout(() => {
+    const mode = DEMO_MODE_SEQUENCE[demoLoopIndex % DEMO_MODE_SEQUENCE.length];
+    const text = SAMPLE_SECRETS[demoLoopIndex % SAMPLE_SECRETS.length];
+    demoLoopIndex += 1;
+    applyMode(mode);
+    runShred({ source: 'demo', text });
+  }, DEMO_LOOP_DELAY);
+}
+
+function startDemoLoop() {
+  demoLoopIndex = 0;
+  updatePreview(DEFAULT_SECRET);
+  scheduleDemoLoop();
 }
 
 function getReturnPath() {
@@ -376,7 +458,7 @@ async function startCheckout(triggerButton) {
   const release = setButtonLoading(triggerButton, 'Opening checkout…');
   try {
     const payload = {
-      secretText: input.value.trim(),
+      secretText: paidAccess.unlocked ? input.value.trim() : '',
       mode: currentMode,
       returnPath: getReturnPath()
     };
@@ -386,6 +468,7 @@ async function startCheckout(triggerButton) {
     setBanner(error.message || 'Checkout could not be started.', 'error');
   } finally {
     release();
+    updateDemoUiState();
   }
 }
 
@@ -433,6 +516,7 @@ function rememberPaidAccess(sessionId, paymentStatus) {
   } catch (_) {
     // ignore session storage issues
   }
+  stopDemoLoop();
   syncPaidUi();
 }
 
@@ -509,7 +593,7 @@ async function loadConfig() {
 }
 
 button?.addEventListener('click', () => runShred({ source: 'demo' }));
-sampleButton?.addEventListener('click', loadSample);
+sampleButton?.addEventListener('click', () => {});
 checkoutButton?.addEventListener('click', () => startCheckout(checkoutButton));
 launchCheckoutButton?.addEventListener('click', () => startCheckout(launchCheckoutButton));
 paidShredButton?.addEventListener('click', () => runShred({ source: 'paid' }));
@@ -517,12 +601,13 @@ launchForm?.addEventListener('submit', submitLaunchForm);
 
 modeTabs.forEach((tab) => {
   tab.addEventListener('click', () => {
-    if (shredding) return;
+    if (shredding || isDemoLocked()) return;
     applyMode(tab.dataset.mode);
   });
 });
 
 input?.addEventListener('input', () => {
+  if (isDemoLocked()) return;
   const cleanValue = input.value.trim();
   updatePreview(cleanValue ? `“${cleanValue}”` : DEFAULT_SECRET);
   updateCount();
@@ -547,6 +632,9 @@ async function init() {
   await handleReturnState();
   await loadConfig();
   syncPaidUi();
+  if (isDemoLocked()) {
+    startDemoLoop();
+  }
 }
 
 init();
