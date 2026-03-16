@@ -10,15 +10,23 @@ function buildMetadata(payload = {}) {
   return metadata;
 }
 
-export async function createCheckoutSession({ env, requestUrl, secretText, mode }) {
+function normalizeReturnPath(value = '/') {
+  const raw = String(value || '/').trim();
+  if (!raw.startsWith('/')) return '/';
+  if (raw.startsWith('//')) return '/';
+  return raw === '/' ? '/' : raw.replace(/\/+$/, '') || '/';
+}
+
+export async function createCheckoutSession({ env, requestUrl, secretText, mode, returnPath }) {
   const stripeSecretKey = required(env.STRIPE_SECRET_KEY, 'STRIPE_SECRET_KEY');
   const stripePriceId = required(getStripePrice(env), 'STRIPE_PRICE_ID');
   const baseUrl = getBaseUrl(env, requestUrl);
+  const safeReturnPath = normalizeReturnPath(returnPath);
 
   const params = new URLSearchParams();
   params.set('mode', env.STRIPE_MODE || 'payment');
-  params.set('success_url', `${baseUrl}/?checkout=success`);
-  params.set('cancel_url', `${baseUrl}/?checkout=cancelled`);
+  params.set('success_url', `${baseUrl}${safeReturnPath}?checkout=success`);
+  params.set('cancel_url', `${baseUrl}${safeReturnPath}?checkout=cancelled`);
   params.set('line_items[0][price]', stripePriceId);
   params.set('line_items[0][quantity]', '1');
   params.set('allow_promotion_codes', 'true');

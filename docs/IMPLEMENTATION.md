@@ -36,11 +36,12 @@ Direct SMTP is awkward inside edge runtimes. For Cloudflare deployment, the reli
 
 ## Stripe flow
 1. Front-end calls `/api/create-checkout-session`
-2. Worker validates the payload and creates a Checkout session
-3. Browser redirects to Stripe Checkout
-4. Stripe returns to `/?checkout=success` or `/?checkout=cancelled`
-5. Stripe webhook posts to `/api/stripe-webhook`
-6. Webhook signature is verified before any event handling
+2. Front-end includes the current page path so the return lands back on the page that launched checkout
+3. Worker validates the payload and creates a Checkout session
+4. Browser redirects to Stripe Checkout
+5. Stripe returns to the originating page, e.g. `/?checkout=success` or `/test/?checkout=success`
+6. Stripe webhook posts to `/api/stripe-webhook`
+7. Webhook signature is verified before any event handling
 
 ## Waitlist flow
 1. Front-end calls `/api/waitlist`

@@ -11,6 +11,7 @@ Those docs define the product voice, humour limits, and the boundary between cus
 
 ## Repo structure
 - `index.html` — public landing page + interactive demo + launch CTA
+- `test/index.html` — staging/proving-ground version of the homepage at `/test/`
 - `styles.css` — visual system, responsive layout, animation styles
 - `script.js` — demo behaviour, launch form, checkout wiring, runtime states
 - `functions/api/*` — Cloudflare Pages Functions / Worker-friendly backend endpoints

@@ -7,6 +7,7 @@ export async function onRequestPost(context) {
     const body = await readJsonBody(context.request);
     const secretText = sanitizeText(body.secretText || '', 220);
     const mode = sanitizeText(body.mode || 'classic', 24) || 'classic';
+    const returnPath = sanitizeText(body.returnPath || '/', 120) || '/';
 
     if (secretText && !isLikelySafeLowStakes(secretText)) {
       return json({ ok: false, error: 'That one looks a bit too real-world spicy for the machine. Keep it harmless and non-identifying.' }, { status: 400 });
@@ -16,7 +17,8 @@ export async function onRequestPost(context) {
       env: context.env,
       requestUrl: context.request.url,
       secretText,
-      mode
+      mode,
+      returnPath
     });
 
     return json({

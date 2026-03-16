@@ -292,6 +292,11 @@ function loadSample() {
   setStatus('Fresh nonsense loaded');
 }
 
+function getReturnPath() {
+  const path = window.location.pathname || '/';
+  return path === '/' ? '/' : path.replace(/\/+$/, '') || '/';
+}
+
 function setButtonLoading(element, loadingText, originalText) {
   if (!element) return () => {};
   const previous = originalText || element.textContent;
@@ -320,7 +325,7 @@ async function callJson(url, payload) {
 
 async function startCheckout(triggerButton) {
   if (!runtimeConfig.checkoutEnabled) {
-    setBanner('Checkout is almost ready, but the payment keys are not live on this environment yet.', 'error');
+    setBanner('Checkout is not available on this page right now. Please try again once payments are enabled for this environment.', 'error');
     return;
   }
 
@@ -328,7 +333,8 @@ async function startCheckout(triggerButton) {
   try {
     const payload = {
       secretText: input.value.trim(),
-      mode: currentMode
+      mode: currentMode,
+      returnPath: getReturnPath()
     };
     const data = await callJson('/api/create-checkout-session', payload);
     window.location.href = data.url;
@@ -343,7 +349,7 @@ async function submitLaunchForm(event) {
   event.preventDefault();
 
   if (!runtimeConfig.waitlistEnabled) {
-    formFeedback.textContent = 'The sign-up inbox is not live on this environment yet. Add the email credentials and try again.';
+    formFeedback.textContent = 'Early access sign-up is not available on this page right now. Please try again once the inbox is enabled for this environment.';
     formFeedback.className = 'form-note error';
     return;
   }
@@ -356,7 +362,7 @@ async function submitLaunchForm(event) {
   };
 
   const release = setButtonLoading(launchSubmitButton, 'Joining…');
-  formFeedback.textContent = 'Sending your details to the nice little clipboard behind the machine…';
+  formFeedback.textContent = 'Sending your details now…';
   formFeedback.className = 'form-note';
 
   try {
