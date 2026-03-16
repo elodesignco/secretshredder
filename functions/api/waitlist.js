@@ -1,5 +1,5 @@
 import { json, readJsonBody } from '../_lib/config.js';
-import { sendWaitlistAutoReply, sendWaitlistNotification } from '../_lib/email.js';
+import { sendWaitlistAutoReply, sendWaitlistNotification, upsertBrevoContact } from '../_lib/email.js';
 import { isLikelySafeLowStakes, sanitizeText, sha256 } from '../_lib/security.js';
 
 function isEmail(value = '') {
@@ -33,12 +33,13 @@ export async function onRequestPost(context) {
       emailDigest: await sha256(email)
     };
 
+    await upsertBrevoContact({ env: context.env, payload });
     await sendWaitlistNotification({ env: context.env, payload });
     await sendWaitlistAutoReply({ env: context.env, payload });
 
     return json({
       ok: true,
-      message: 'You’re on the list. We’ll send a polite tap on the shoulder when the machine opens.'
+      message: 'You’re in. We’ll send occasional launch notes, product updates, and tasteful nonsense.'
     });
   } catch (error) {
     return json({ ok: false, error: error.message || 'The sign-up could not be sent.' }, { status: 500 });

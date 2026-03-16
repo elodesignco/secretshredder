@@ -476,7 +476,7 @@ async function submitLaunchForm(event) {
   event.preventDefault();
 
   if (!runtimeConfig.waitlistEnabled) {
-    formFeedback.textContent = 'Early access sign-up is not available on this page right now. Please try again once the inbox is enabled for this environment.';
+    formFeedback.textContent = 'Email updates are not available on this page right now. Please try again shortly.';
     formFeedback.className = 'form-note error';
     return;
   }

@@ -44,7 +44,7 @@
         <a href="#demo">Demo</a>
         <a href="#paid">Paid shred</a>
         <a href="#faq">FAQ</a>
-        <a class="btn btn-ghost" href="#launch">Join early access</a>
+        <a class="btn btn-ghost" href="#updates">Get updates</a>
       </nav>
     </header>
 
@@ -52,10 +52,6 @@
       <section class="hero wrap">
         <div class="hero-shell">
           <div class="hero-copy reveal">
-            <div class="meta-row">
-              <span class="badge badge-live">Harmless cringe only</span>
-              <span class="badge">Looping demo, paid unlock second</span>
-            </div>
             <p class="eyebrow">tiny ritual • luxury nonsense • no lectures</p>
             <h1>Put it in the machine.</h1>
             <p class="lede">
@@ -67,13 +63,13 @@
             <div class="hero-actions">
               <a class="btn btn-primary" href="#demo">Watch the free demo</a>
               <button class="btn btn-secondary" id="checkoutButton" type="button">Buy one paid shred</button>
-              <a class="btn btn-ghost" href="#launch">Join early access</a>
+              <a class="btn btn-ghost" href="#updates">Get launch notes</a>
             </div>
 
-            <ul class="value-list">
-              <li><strong>Free demo:</strong> a looping showcase of the shred styles</li>
-              <li><strong>Paid unlock:</strong> your own shred stays locked until Stripe confirms payment</li>
-              <li><strong>Low-stakes only:</strong> keep out names, threats, revenge, and real harm</li>
+            <ul class="value-list compact">
+              <li><strong>Free demo:</strong> passive showcase only</li>
+              <li><strong>Paid unlock:</strong> available after verified Stripe payment</li>
+              <li><strong>Keep it harmless:</strong> no names, threats, revenge, or real harm</li>
             </ul>
           </div>
 
@@ -81,108 +77,112 @@
             <div class="status-bar" aria-label="Product highlights">
               <span class="badge badge-soft" id="demoLoopBadge">Looping free demo</span>
               <span class="badge badge-soft" id="paidStatusBadge">Paid shred locked</span>
-              <span class="badge badge-soft">Four send-off styles</span>
             </div>
 
             <div class="machine-frame" data-mode="classic">
-              <div class="machine-top">
-                <div class="machine-screen">
-                  <span class="machine-screen-label">machine status</span>
-                  <strong id="machineStatus">Standing by for nonsense</strong>
-                </div>
-                <div class="price-chip">One paid shred unlocks after checkout</div>
-              </div>
-
-              <div class="mode-panel">
-                <div>
-                  <p class="panel-kicker">Shred style showcase</p>
-                  <p class="panel-note" id="demoLoopNote">The free demo now just showcases each shred style on loop. Unlock the paid shred to type your own and run it for real.</p>
-                </div>
-                <div class="mode-tabs" role="tablist" aria-label="Shred styles">
-                  <button class="mode-tab active" type="button" role="tab" aria-selected="true" data-mode="classic">
-                    <span class="mode-icon icon-classic" aria-hidden="true"><span></span><span></span><span></span></span>
-                    <span class="mode-copy"><strong>Classic shred</strong><small>Crisp strips. Office-grade closure.</small></span>
-                  </button>
-                  <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="crosscut">
-                    <span class="mode-icon icon-crosscut" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
-                    <span class="mode-copy"><strong>Cross-cut</strong><small>Tiny squares for premium overkill.</small></span>
-                  </button>
-                  <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="incinerate">
-                    <span class="mode-icon icon-incinerate" aria-hidden="true"><span></span></span>
-                    <span class="mode-copy"><strong>Incinerate</strong><small>Warm glow. Dramatic finish.</small></span>
-                  </button>
-                  <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="yeet">
-                    <span class="mode-icon icon-yeet" aria-hidden="true"><span></span><span></span><span></span></span>
-                    <span class="mode-copy"><strong>Yeet to void</strong><small>Leave the atmosphere. Never return.</small></span>
-                  </button>
-                </div>
-              </div>
-
-              <div class="shredder-card" id="shredderCard">
-                <div class="machine-face">
-                  <span></span><span></span><span></span>
-                </div>
-                <div class="slot-assembly" aria-hidden="true">
-                  <div class="slot-hood"></div>
-                  <div class="paper-slot">
-                    <div class="slot-track"></div>
-                    <div class="roller roller-left"></div>
-                    <div class="roller roller-right"></div>
-                    <div class="slot-sheen"></div>
+              <div class="machine-layout">
+                <div class="machine-controls">
+                  <div class="machine-top">
+                    <div class="machine-screen">
+                      <span class="machine-screen-label">machine status</span>
+                      <strong id="machineStatus">Standing by for nonsense</strong>
+                    </div>
+                    <div class="price-chip">One paid shred. Stripe handles payment and receipts.</div>
                   </div>
-                </div>
-                <div class="shredder-glow"></div>
-                <div class="paper-stack"></div>
-                <div class="paper" id="paper" aria-live="polite">
-                  <div class="paper-top-shadow"></div>
-                  <span class="paper-kicker">confidential stupidity</span>
-                  <p id="secretPreview">“I waved back at someone who absolutely weren’t waving at me.”</p>
-                  <div class="paper-meta">
-                    <span>anonymous</span>
-                    <span>one-time ritual</span>
-                    <span id="paperModeLabel">classic shred armed</span>
-                  </div>
-                </div>
-                <div class="slot-warning">Keep it harmless. The machine has standards.</div>
-                <div class="blade-row"></div>
-                <div class="shred-strip-bed" id="stripBed"></div>
-                <div class="ash-bed" id="ashBed"></div>
-                <div class="crosscut-grid" id="crosscutGrid"></div>
-                <div class="void-burst" id="voidBurst"></div>
-                <div class="confetti" id="confetti"></div>
-              </div>
 
-              <div class="demo-panel">
-                <div class="flow-grid">
-                  <div class="flow-card">
-                    <p class="flow-label">Free demo</p>
-                    <p class="flow-copy">Animation-only. The machine keeps looping through each send-off style so people can watch the spectacle before they buy.</p>
-                    <div class="demo-actions">
-                      <button class="btn btn-primary" id="shredButton" type="button" disabled>Demo auto-playing below</button>
-                      <button class="btn btn-secondary" id="sampleButton" type="button" disabled>Samples rotate automatically</button>
+                  <div class="mode-panel">
+                    <div>
+                      <p class="panel-kicker">Shred style showcase</p>
+                      <p class="panel-note" id="demoLoopNote">The free demo quietly cycles through each shred style. Unlock the paid shred to type your own and run it for real.</p>
+                    </div>
+                    <div class="mode-tabs" role="tablist" aria-label="Shred styles">
+                      <button class="mode-tab active" type="button" role="tab" aria-selected="true" data-mode="classic">
+                        <span class="mode-icon icon-classic" aria-hidden="true"><span></span><span></span><span></span></span>
+                        <span class="mode-copy"><strong>Classic shred</strong><small>Crisp strips. Office-grade closure.</small></span>
+                      </button>
+                      <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="crosscut">
+                        <span class="mode-icon icon-crosscut" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+                        <span class="mode-copy"><strong>Cross-cut</strong><small>Tiny squares for premium overkill.</small></span>
+                      </button>
+                      <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="incinerate">
+                        <span class="mode-icon icon-incinerate" aria-hidden="true"><span></span></span>
+                        <span class="mode-copy"><strong>Incinerate</strong><small>Warm glow. Dramatic finish.</small></span>
+                      </button>
+                      <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="yeet">
+                        <span class="mode-icon icon-yeet" aria-hidden="true"><span></span><span></span><span></span></span>
+                        <span class="mode-copy"><strong>Yeet to void</strong><small>Leave the atmosphere. Never return.</small></span>
+                      </button>
                     </div>
                   </div>
-                  <div class="flow-card" id="paid">
-                    <p class="flow-label">Real paid shred</p>
-                    <p class="flow-copy" id="paidAccessNote">The full paid shred stays locked until Stripe sends you back with a confirmed paid session.</p>
-                    <div class="demo-actions">
-                      <button class="btn btn-secondary" id="launchCheckoutButton" type="button">Unlock with Stripe checkout</button>
-                      <button class="btn btn-primary" id="paidShredButton" type="button" disabled>Use my paid shred</button>
+
+                  <div class="demo-panel">
+                    <div class="flow-grid">
+                      <div class="flow-card passive-card">
+                        <p class="flow-label">Free demo</p>
+                        <p class="flow-copy">Animation-only. The machine quietly loops through each send-off style so people can watch the spectacle before they buy.</p>
+                        <div class="demo-actions">
+                          <button class="btn btn-secondary" id="shredButton" type="button" disabled>Demo running automatically</button>
+                        </div>
+                      </div>
+                      <div class="flow-card" id="paid">
+                        <p class="flow-label">Real paid shred</p>
+                        <p class="flow-copy" id="paidAccessNote">The full paid shred stays locked until Stripe sends you back with a confirmed paid session.</p>
+                        <div class="demo-actions">
+                          <button class="btn btn-secondary" id="launchCheckoutButton" type="button">Unlock with Stripe checkout</button>
+                          <button class="btn btn-primary" id="paidShredButton" type="button" disabled>Use my paid shred</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="composer-shell" id="demoComposer">
+                      <label class="field-label" for="secretInput">Paid shred composer</label>
+                      <textarea
+                        id="secretInput"
+                        maxlength="220"
+                        placeholder="Free demo is a looping showcase. Unlock the paid shred to type your own."
+                        disabled
+                      ></textarea>
+                      <div class="demo-meta">
+                        <span id="charCount">0 / 220</span>
+                        <span id="composerHint">Free demo is animation-only.</span>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div class="composer-shell" id="demoComposer">
-                  <label class="field-label" for="secretInput">Paid shred composer</label>
-                  <textarea
-                    id="secretInput"
-                    maxlength="220"
-                    placeholder="Free demo is a looping showcase. Unlock the paid shred to type your own."
-                    disabled
-                  ></textarea>
-                  <div class="demo-meta">
-                    <span id="charCount">0 / 220</span>
-                    <span id="composerHint">Free demo is animation-only.</span>
+                <div class="machine-showcase">
+                  <div class="shredder-card" id="shredderCard">
+                    <div class="machine-face">
+                      <span></span><span></span><span></span>
+                    </div>
+                    <div class="slot-assembly" aria-hidden="true">
+                      <div class="slot-hood"></div>
+                      <div class="paper-slot">
+                        <div class="slot-track"></div>
+                        <div class="roller roller-left"></div>
+                        <div class="roller roller-right"></div>
+                        <div class="slot-sheen"></div>
+                      </div>
+                    </div>
+                    <div class="shredder-glow"></div>
+                    <div class="paper-stack"></div>
+                    <div class="paper" id="paper" aria-live="polite">
+                      <div class="paper-top-shadow"></div>
+                      <span class="paper-kicker">confidential stupidity</span>
+                      <p id="secretPreview">“I waved back at someone who absolutely weren’t waving at me.”</p>
+                      <div class="paper-meta">
+                        <span>anonymous</span>
+                        <span>one-time ritual</span>
+                        <span id="paperModeLabel">classic shred armed</span>
+                      </div>
+                    </div>
+                    <div class="slot-warning">Keep it harmless. The machine has standards.</div>
+                    <div class="blade-row"></div>
+                    <div class="shred-strip-bed" id="stripBed"></div>
+                    <div class="ash-bed" id="ashBed"></div>
+                    <div class="crosscut-grid" id="crosscutGrid"></div>
+                    <div class="void-burst" id="voidBurst"></div>
+                    <div class="confetti" id="confetti"></div>
                   </div>
                 </div>
               </div>
@@ -195,7 +195,7 @@
         <article>
           <span class="proof-number">01</span>
           <h3>The free demo is honest</h3>
-          <p>The free side is now just a looping showcase. It lets people watch the bit without pretending they can run their own shred for free.</p>
+          <p>The free side is a passive looping showcase. It lets people watch the bit without pretending they can run their own shred for free.</p>
         </article>
         <article>
           <span class="proof-number">02</span>
@@ -205,7 +205,7 @@
         <article>
           <span class="proof-number">03</span>
           <h3>The joke still lands</h3>
-          <p>Even with the funnel cleaned up, the send-off stays playful, polished, and screen-recordable.</p>
+          <p>The machine stays playful, polished, and screen-recordable without getting in the way of the funnel.</p>
         </article>
       </section>
 
@@ -260,13 +260,13 @@
         </div>
       </section>
 
-      <section class="launch wrap reveal" id="launch">
+      <section class="launch wrap reveal" id="updates">
         <div class="section-heading centered">
-          <p class="eyebrow">early access</p>
-          <h2>Join the list for launch news</h2>
+          <p class="eyebrow">email updates</p>
+          <h2>Get launch notes, product drops, and tasteful nonsense by email</h2>
           <p>
-            Join the early access list for launch updates, new send-off styles, and the moment the
-            machine is broadly open for business.
+            Leave your email if you want occasional updates about new send-off styles, product
+            changes, launch moments, and polite marketing from Secret Shredder.
           </p>
         </div>
 
@@ -293,9 +293,9 @@
             <input type="text" name="note" maxlength="120" placeholder="What would make this absurdly irresistible?" />
           </label>
           <div class="form-actions form-actions-stacked">
-            <button class="btn btn-primary" id="launchSubmitButton" type="submit">Join early access</button>
+            <button class="btn btn-primary" id="launchSubmitButton" type="submit">Email me updates</button>
             <p class="form-note" id="formFeedback">
-              No spam. Just a polite tap on the shoulder when the machine opens for business.
+              By signing up, you agree to receive product updates and occasional marketing emails from Secret Shredder. You can unsubscribe anytime. See <a href="./privacy.html">Privacy</a>.
             </p>
           </div>
         </form>
@@ -312,12 +312,12 @@
             <p>The looping demo preview is free. Typing your own regret and running the real shred stays locked until Stripe checkout succeeds and the return session is verified.</p>
           </details>
           <details>
-            <summary>Is this anonymous?</summary>
-            <p>That’s the goal. Keep real names and identifying details out of the machine and you’ll be using it as intended.</p>
+            <summary>Who handles payment receipts?</summary>
+            <p>Stripe handles checkout and payment receipts. Secret Shredder only unlocks the paid shred after Stripe confirms the session.</p>
           </details>
           <details>
-            <summary>Is this therapy?</summary>
-            <p>No. It’s a stylish joke product with an oddly satisfying little ritual attached.</p>
+            <summary>What happens if I sign up for email updates?</summary>
+            <p>Your signup is handled through Brevo for list management and marketing sends so we can keep you posted about Secret Shredder.</p>
           </details>
           <details>
             <summary>What definitely does not belong in here?</summary>

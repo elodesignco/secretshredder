@@ -23,7 +23,8 @@
 ## Brevo / launch emails
 | Variable | Required | Purpose |
 | --- | --- | --- |
-| `BREVO_API_KEY` | yes for launch form | Used for Cloudflare-friendly transactional email sends |
+| `BREVO_API_KEY` | yes for launch form | Used for Brevo contact sync and email sends |
+| `BREVO_LIST_ID` | optional | Brevo list to add marketing signups into |
 | `NOTIFY_FROM_EMAIL` | yes | Sender mailbox |
 | `NOTIFY_FROM_NAME` | no | Sender display name |
 | `NOTIFY_TO_EMAIL` | yes | Internal destination for waitlist notifications |

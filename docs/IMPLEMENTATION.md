@@ -15,7 +15,7 @@
 Implemented with Cloudflare Pages Functions / Workers-compatible request handlers:
 - `functions/api/config.js` — exposes safe runtime capability flags to the front-end
 - `functions/api/create-checkout-session.js` — creates a Stripe Checkout session via Stripe's REST API
-- `functions/api/waitlist.js` — validates and forwards launch signups via Brevo's HTTP email API
+- `functions/api/waitlist.js` — validates signups, upserts them into Brevo, and sends the operator/user email flows
 - `functions/api/checkout-status.js` — verifies a Stripe Checkout return by looking up the session server-side
 - `functions/api/stripe-webhook.js` — verifies webhook signatures and provides the event handling entrypoint
 - `functions/_lib/*` — shared config, Stripe, email, and safety helpers
@@ -87,3 +87,4 @@ Direct SMTP is awkward inside edge runtimes. For Cloudflare deployment, the reli
 
 ## Recommended next production step
 Add durable persistence for paid orders / early-access entries if the business needs a dashboard, CRM sync, or resend protection. Right now the wiring is good for launch-day notifications and checkout initiation, but not a full admin system.
+s and checkout initiation, but not a full admin system.
