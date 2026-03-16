@@ -21,7 +21,7 @@ const DEFAULT_SECRET = '“I waved back at someone who absolutely weren’t wavi
 const SAMPLE_SECRETS = [
   '“I practised an argument in the shower and still lost it in real life.”',
   '“I accidentally sent the thumbs-up to a paragraph that deserved compassion.”',
-  '“I said \"love you\" at the end of a work call and simply kept living.”',
+  '“I said "love you" at the end of a work call and simply kept living.”',
   '“I checked whether my own message had been seen four times in ninety seconds.”',
   '“I laughed at a joke I did not understand because everyone else looked committed.”'
 ];
@@ -30,24 +30,28 @@ const MODES = {
   classic: {
     label: 'classic shred armed',
     status: 'Classic shred selected',
+    running: 'Feeding the rollers',
     complete: 'Gone in elegant little strips',
     button: 'Send it through the rollers'
   },
   crosscut: {
     label: 'cross-cut armed',
     status: 'Cross-cut selected',
+    running: 'Cross-cutting the evidence',
     complete: 'Reduced to suspiciously festive squares',
     button: 'Cross-cut this disaster'
   },
   incinerate: {
     label: 'incinerate armed',
     status: 'Incinerate selected',
+    running: 'Applying dramatic fire',
     complete: 'Reduced to warm ash and poor choices',
     button: 'Burn it with ceremony'
   },
   yeet: {
     label: 'void launch armed',
     status: 'Void launch selected',
+    running: 'Opening a tasteful little void',
     complete: 'Launched into the digital abyss',
     button: 'Yeet it into the void'
   }
@@ -82,12 +86,32 @@ function spawnConfetti(palette = ['#ff6b3d', '#ffbf5f', '#fff0cf']) {
   for (let i = 0; i < 28; i += 1) {
     const bit = document.createElement('span');
     bit.style.left = `${8 + Math.random() * 84}%`;
-    bit.style.top = `${138 + Math.random() * 36}px`;
+    bit.style.top = `${148 + Math.random() * 42}px`;
     bit.style.animationDelay = `${Math.random() * 0.22}s`;
     const colorA = palette[Math.floor(Math.random() * palette.length)];
     const colorB = palette[Math.floor(Math.random() * palette.length)];
     bit.style.background = `linear-gradient(180deg, ${colorA}, ${colorB})`;
     confetti.appendChild(bit);
+  }
+}
+
+function spawnPaperBurst(type = 'strip') {
+  const amount = type === 'square' ? 12 : 10;
+  for (let i = 0; i < amount; i += 1) {
+    const burst = document.createElement('span');
+    burst.className = 'paper-burst';
+    burst.style.left = `${50 + (Math.random() - 0.5) * 10}%`;
+    burst.style.background = type === 'square'
+      ? 'linear-gradient(180deg, #fff5de, #e5cfaf)'
+      : 'linear-gradient(180deg, #fffef5, #ecd9b6)';
+    burst.style.width = type === 'square' ? '12px' : `${8 + Math.random() * 3}px`;
+    burst.style.height = type === 'square' ? '12px' : `${34 + Math.random() * 18}px`;
+    burst.style.borderRadius = type === 'square' ? '3px' : '999px';
+    burst.style.animationDelay = `${Math.random() * 0.06}s`;
+    burst.style.setProperty('--drift', `${(Math.random() - 0.5) * 90}px`);
+    burst.style.setProperty('--rot', `${(Math.random() - 0.5) * 80}deg`);
+    shredderCard.appendChild(burst);
+    setTimeout(() => burst.remove(), 1000);
   }
 }
 
@@ -97,12 +121,13 @@ function spawnStrips() {
     const strip = document.createElement('span');
     strip.className = 'strip';
     strip.style.left = `${6 + i * 3.25}%`;
-    strip.style.animationDelay = `${Math.random() * 0.35}s`;
+    strip.style.animationDelay = `${Math.random() * 0.28}s`;
     strip.style.background = Math.random() > 0.35
       ? 'linear-gradient(180deg, #ff6b3d, #ffbf5f)'
       : 'linear-gradient(180deg, #fffef5, #e8d9c1)';
     stripBed.appendChild(strip);
   }
+  spawnPaperBurst('strip');
 }
 
 function spawnSquares() {
@@ -111,17 +136,20 @@ function spawnSquares() {
     const square = document.createElement('span');
     square.className = 'square';
     square.style.left = `${6 + Math.random() * 88}%`;
-    square.style.top = `${Math.random() * 8}px`;
+    square.style.top = `${Math.random() * 10}px`;
     square.style.animationDelay = `${Math.random() * 0.28}s`;
     square.style.background = Math.random() > 0.3
       ? 'linear-gradient(135deg, #ff6b3d, #ffbf5f)'
       : 'linear-gradient(135deg, #fff7df, #e8d9c1)';
     crosscutGrid.appendChild(square);
   }
+  spawnPaperBurst('square');
 }
 
 function spawnAsh() {
   ashBed.innerHTML = '';
+  voidBurst.innerHTML = '';
+
   for (let i = 0; i < 32; i += 1) {
     const ash = document.createElement('span');
     ash.className = 'ash';
@@ -179,6 +207,14 @@ function applyMode(mode) {
   setStatus(MODES[mode].status);
 }
 
+function finishShred() {
+  preview.textContent = MODES[currentMode].complete;
+  setStatus('Ritual complete');
+  resetPaper();
+  shredderCard.classList.remove('is-busy');
+  shredding = false;
+}
+
 function shred() {
   if (shredding) return;
   shredding = true;
@@ -187,42 +223,36 @@ function shred() {
   updatePreview(text.startsWith('“') ? text : `“${text.replace(/[“”]/g, '')}”`);
   clearEffects();
   resetPaper();
+  shredderCard.classList.add('is-busy');
   void paper.offsetWidth;
 
+  setStatus(MODES[currentMode].running);
+
   if (currentMode === 'classic') {
-    setStatus('Running classic shred');
     paper.classList.add('shredding-classic');
-    spawnStrips();
-    spawnConfetti(['#ff6b3d', '#ffbf5f', '#fff0cf']);
+    setTimeout(() => spawnStrips(), 260);
+    setTimeout(() => spawnConfetti(['#ff6b3d', '#ffbf5f', '#fff0cf']), 620);
   }
 
   if (currentMode === 'crosscut') {
-    setStatus('Cross-cutting the evidence');
     paper.classList.add('shredding-crosscut');
-    spawnSquares();
-    spawnConfetti(['#ff6b3d', '#ffe5b0', '#ffffff']);
+    setTimeout(() => spawnSquares(), 250);
+    setTimeout(() => spawnConfetti(['#ff6b3d', '#ffe5b0', '#ffffff']), 600);
   }
 
   if (currentMode === 'incinerate') {
-    setStatus('Applying dramatic fire');
     paper.classList.add('shredding-incinerate');
-    spawnAsh();
-    spawnConfetti(['#ff7a3d', '#ffd05c', '#fff4d3']);
+    setTimeout(() => spawnAsh(), 220);
+    setTimeout(() => spawnConfetti(['#ff7a3d', '#ffd05c', '#fff4d3']), 640);
   }
 
   if (currentMode === 'yeet') {
-    setStatus('Opening a small and tasteful void');
     paper.classList.add('shredding-yeet');
-    spawnVoid();
-    spawnConfetti(['#8d7bff', '#cbc2ff', '#ffffff']);
+    setTimeout(() => spawnVoid(), 140);
+    setTimeout(() => spawnConfetti(['#8d7bff', '#cbc2ff', '#ffffff']), 480);
   }
 
-  setTimeout(() => {
-    preview.textContent = MODES[currentMode].complete;
-    setStatus('Ritual complete');
-    resetPaper();
-    shredding = false;
-  }, 1800);
+  setTimeout(finishShred, 1950);
 }
 
 function loadSample() {
@@ -261,7 +291,7 @@ launchForm?.addEventListener('submit', (event) => {
     return;
   }
 
-  formFeedback.textContent = `Demo captured: ${email} is in for “${category}”. Wire this to a real endpoint before launch.`;
+  formFeedback.textContent = `You’re on the list for ${category.toLowerCase()}. We’ll let you know when the machine opens.`;
   formFeedback.className = 'form-note success';
   launchForm.reset();
 });
