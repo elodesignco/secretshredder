@@ -1,0 +1,18 @@
+name = "secretshredder"
+compatibility_date = "2026-03-16"
+pages_build_output_dir = "."
+
+[vars]
+PUBLIC_SITE_URL = "https://secretshredder.com"
+PRODUCT_NAME = "Secret Shredder"
+DEFAULT_CURRENCY = "usd"
+STRIPE_MODE = "payment"
+WAITLIST_EMAIL_SUBJECT = "New Secret Shredder early access signup"
+WAITLIST_EMAIL_TAG = "secret-shredder-waitlist"
+LAUNCH_EMAIL_SUBJECT = "You’re on the Secret Shredder early access list"
+
+# Set secrets with Wrangler or in the Cloudflare dashboard.
+# Example:
+# wrangler secret put STRIPE_SECRET_KEY
+# wrangler secret put STRIPE_WEBHOOK_SECRET
+# wrangler secret put BREVO_API_KEY

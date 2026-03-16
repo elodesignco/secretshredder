@@ -1,22 +1,23 @@
 # Secret Shredder — internal next actions
 
-## Brand / product guardrails
-- Keep public copy aligned with `docs/brand/VOICE.md`
-- Do not leak implementation/provider notes onto public pages
-- Optimise every major interaction for short clips and screenshots
+## Launch-critical
+- Add live Stripe and Brevo credentials in Cloudflare
+- Create the first Stripe product/price and connect webhook delivery
+- Smoke-test checkout and waitlist against the deployed domain
+- Decide whether paid shreds need persistence, fulfilment, or customer receipts beyond Stripe
 
-## Product follow-up
-- Wire waitlist submissions to a real endpoint
-- Add a real paid shred flow if/when monetisation is enabled
-- Decide whether completed shreds are purely transient or briefly processed server-side
-- Add moderation / rate limiting / abuse controls before launch
+## Product / ops follow-up
+- Add rate limiting / abuse controls before public launch
+- Decide whether waitlist signups should also write to a CRM, sheet, or database
+- Add replay-safe webhook event handling if fulfilment logic grows
+- Consider a minimal operator dashboard only if launch traction justifies it
 
 ## Design follow-up
-- Consider sound design / haptics for mobile
-- Explore recording/export hooks for shareable clips/GIFs
-- Push the mascot/machine identity further in future visual iterations
+- Record a couple of polished launch clips/GIFs from the stronger animation pass
+- Consider subtle sound design / haptics for mobile
+- Explore a post-checkout paid shred experience that feels more ceremonial than the free demo
 
 ## Policy follow-up
 - Final legal review for privacy/terms
-- Confirm prohibited-content handling
+- Confirm prohibited-content handling escalation path
 - Decide support/contact path for launch

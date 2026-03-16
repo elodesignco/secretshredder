@@ -1,6 +1,6 @@
 # Secret Shredder
 
-Secret Shredder is a polished static marketing/demo site for a highly shareable product idea: drop in a harmless regret, pick a destruction style, and watch it die with unnecessary ceremony.
+Secret Shredder is a polished marketing site and launch-ready interactive demo for a highly shareable product idea: drop in a harmless regret, pick a destruction style, and watch it die with unnecessary ceremony.
 
 ## Before touching public copy
 Read:
@@ -10,12 +10,16 @@ Read:
 Those docs define the product voice, humour limits, and the boundary between customer-facing language and internal builder notes.
 
 ## Repo structure
-- `index.html` — public landing page + interactive demo
+- `index.html` — public landing page + interactive demo + launch CTA
 - `styles.css` — visual system, responsive layout, animation styles
-- `script.js` — demo behaviour, mode switching, waitlist form feedback
-- `privacy.html` — plain-language draft privacy page
-- `terms.html` — plain-language draft terms page
+- `script.js` — demo behaviour, launch form, checkout wiring, runtime states
+- `functions/api/*` — Cloudflare Pages Functions / Worker-friendly backend endpoints
+- `functions/_lib/*` — shared backend helpers
+- `privacy.html` — privacy page
+- `terms.html` — terms page
 - `docs/brand/*` — internal voice and publishing guidance
+- `docs/ENVIRONMENT.md` — env contract
+- `docs/IMPLEMENTATION.md` — backend and flow notes
 - `ACTIONS.md` — internal next steps / implementation notes
 
 ## Product principles
@@ -28,17 +32,20 @@ Those docs define the product voice, humour limits, and the boundary between cus
 ## Local dev
 ```bash
 cd /home/mark/.openclaw/workspace/secretshredder
-python3 -m http.server 8080
+npm install
+npm run dev
 ```
 
-Open `http://localhost:8080`.
-
 ## Current state
-This repo is still front-end only. The waitlist form and shred ritual are demo interactions until server-side endpoints exist.
+This repo now includes:
+- a Cloudflare-friendly Stripe Checkout session endpoint
+- a waitlist submission endpoint that uses Brevo's HTTP API
+- a Stripe webhook verification endpoint
+- front-end wiring for paid CTA + launch form
+- improved shred animation and machine UI states
 
-## Suggested production follow-up
-Keep this out of the public site and in docs/issues:
-- waitlist API endpoint
-- payment flow
-- abuse prevention / moderation
-- final legal review
+## Credentials still needed
+- Stripe keys + price ID
+- Stripe webhook secret
+- Brevo API key
+- sender / destination email values

@@ -1,1 +1,1 @@
-https://secretshredder.com/* https://www.secretshredder.com/:splat 301
+# Host-level www → apex redirect should be handled in Cloudflare rules, not here.

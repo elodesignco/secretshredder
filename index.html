@@ -30,6 +30,8 @@
     <div class="page-glow glow-right"></div>
     <div class="noise"></div>
 
+    <div class="site-banner wrap" id="siteBanner" hidden></div>
+
     <header class="site-header wrap">
       <a class="brand" href="#top" aria-label="Secret Shredder home">
         <img src="./assets/logo-mark.svg" alt="Secret Shredder logo" />
@@ -64,7 +66,8 @@
 
             <div class="hero-actions">
               <a class="btn btn-primary" href="#demo">Try a demo shred</a>
-              <a class="btn btn-secondary" href="#launch">Join early access</a>
+              <button class="btn btn-secondary" id="checkoutButton" type="button">Reserve your first shred</button>
+              <a class="btn btn-ghost" href="#launch">Join early access</a>
             </div>
 
             <ul class="value-list">
@@ -87,7 +90,7 @@
                   <span class="machine-screen-label">machine status</span>
                   <strong id="machineStatus">Standing by for nonsense</strong>
                 </div>
-                <div class="price-chip">from $2 / send-off</div>
+                <div class="price-chip">Launch offer: one dramatic send-off</div>
               </div>
 
               <div class="mode-panel">
@@ -97,19 +100,19 @@
                 </div>
                 <div class="mode-tabs" role="tablist" aria-label="Shred styles">
                   <button class="mode-tab active" type="button" role="tab" aria-selected="true" data-mode="classic">
-                    <span class="mode-icon" aria-hidden="true">✂️</span>
+                    <span class="mode-icon icon-classic" aria-hidden="true"><span></span><span></span><span></span></span>
                     <span class="mode-copy"><strong>Classic shred</strong><small>Crisp strips. Office-grade closure.</small></span>
                   </button>
                   <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="crosscut">
-                    <span class="mode-icon" aria-hidden="true">▦</span>
+                    <span class="mode-icon icon-crosscut" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
                     <span class="mode-copy"><strong>Cross-cut</strong><small>Tiny squares for premium overkill.</small></span>
                   </button>
                   <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="incinerate">
-                    <span class="mode-icon" aria-hidden="true">🔥</span>
+                    <span class="mode-icon icon-incinerate" aria-hidden="true"><span></span></span>
                     <span class="mode-copy"><strong>Incinerate</strong><small>Warm glow. Dramatic finish.</small></span>
                   </button>
                   <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="yeet">
-                    <span class="mode-icon" aria-hidden="true">✦</span>
+                    <span class="mode-icon icon-yeet" aria-hidden="true"><span></span><span></span><span></span></span>
                     <span class="mode-copy"><strong>Yeet to void</strong><small>Leave the atmosphere. Never return.</small></span>
                   </button>
                 </div>
@@ -131,6 +134,7 @@
                 <div class="shredder-glow"></div>
                 <div class="paper-stack"></div>
                 <div class="paper" id="paper" aria-live="polite">
+                  <div class="paper-top-shadow"></div>
                   <span class="paper-kicker">confidential stupidity</span>
                   <p id="secretPreview">“I waved back at someone who absolutely weren’t waving at me.”</p>
                   <div class="paper-meta">
@@ -139,10 +143,11 @@
                     <span id="paperModeLabel">classic shred armed</span>
                   </div>
                 </div>
+                <div class="slot-warning">Keep it harmless. The machine has standards.</div>
                 <div class="blade-row"></div>
-                <div class="crosscut-grid" id="crosscutGrid"></div>
                 <div class="shred-strip-bed" id="stripBed"></div>
                 <div class="ash-bed" id="ashBed"></div>
+                <div class="crosscut-grid" id="crosscutGrid"></div>
                 <div class="void-burst" id="voidBurst"></div>
                 <div class="confetti" id="confetti"></div>
               </div>
@@ -159,7 +164,7 @@
                   <span>Keep it funny. Leave out names, threats, doxxing, and genuinely dark stuff.</span>
                 </div>
                 <div class="demo-actions">
-                  <button class="btn btn-primary" id="shredButton" type="button">Send it off</button>
+                  <button class="btn btn-primary" id="shredButton" type="button">Send it through the rollers</button>
                   <button class="btn btn-secondary" id="sampleButton" type="button">Load a sample</button>
                 </div>
               </div>
@@ -269,8 +274,9 @@
             Optional note
             <input type="text" name="note" maxlength="120" placeholder="What would make this absurdly irresistible?" />
           </label>
-          <div class="form-actions">
-            <button class="btn btn-primary" type="submit">Join early access</button>
+          <div class="form-actions form-actions-stacked">
+            <button class="btn btn-primary" id="launchSubmitButton" type="submit">Join early access</button>
+            <button class="btn btn-secondary" id="launchCheckoutButton" type="button">Skip the queue and reserve a paid shred</button>
             <p class="form-note" id="formFeedback">
               No spam. Just a polite tap on the shoulder when the machine opens for business.
             </p>
