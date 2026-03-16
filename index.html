@@ -3,13 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Secret Shredder — Pay. Confess. Watch it disappear.</title>
+    <title>Secret Shredder — Put it in the machine.</title>
     <meta
       name="description"
-      content="A premium anonymous ritual for secrets, regrets, awkward memories, and bad decisions. Pay a tiny toll, feed the shredder, and get instant internet catharsis."
+      content="A ridiculously polished little ritual for harmless regrets. Type the cringe, pick a fate, and watch it vanish with style."
     />
-    <meta property="og:title" content="Secret Shredder" />
-    <meta property="og:description" content="Pay. Confess. Watch it disappear." />
+    <meta property="og:title" content="Secret Shredder — Put it in the machine." />
+    <meta
+      property="og:description"
+      content="Type it. Pick a fate. Watch the evidence become confetti."
+    />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://secretshredder.com/assets/logo-mark.svg" />
     <meta name="theme-color" content="#090b11" />
@@ -32,14 +35,14 @@
         <img src="./assets/logo-mark.svg" alt="Secret Shredder logo" />
         <div>
           <strong>Secret Shredder</strong>
-          <span>anonymous internet catharsis</span>
+          <span>premium regret disposal</span>
         </div>
       </a>
       <nav>
-        <a href="#ritual">Ritual</a>
-        <a href="#launch">Launch</a>
+        <a href="#demo">Demo</a>
+        <a href="#how">How it works</a>
         <a href="#faq">FAQ</a>
-        <a class="btn btn-ghost" href="#launch">Get early access</a>
+        <a class="btn btn-ghost" href="#launch">Join early access</a>
       </nav>
     </header>
 
@@ -47,62 +50,85 @@
       <section class="hero wrap">
         <div class="hero-shell">
           <div class="hero-copy reveal">
-            <p class="eyebrow">anonymous • absurd • weirdly relieving</p>
-            <h1>Pay.<br />Confess.<br />Watch it disappear.</h1>
+            <div class="meta-row">
+              <span class="badge badge-live">Anonymous-ish by design</span>
+              <span class="badge">Built for harmless cringe only</span>
+            </div>
+            <p class="eyebrow">tiny ritual • expensive vibes • zero sermons</p>
+            <h1>Put it in the machine.</h1>
             <p class="lede">
-              Secret Shredder turns bad decisions into a premium little ritual. Type the secret,
-              pay the tiny toll, and feed it into a gloriously overbuilt digital shredder that makes
-              shame feel oddly cinematic.
+              Secret Shredder is a ridiculously polished little ceremony for the things you wish had
+              never left your mouth, phone, or frontal lobe. Type the regret, choose a fate, and
+              watch the evidence die beautifully.
             </p>
 
             <div class="hero-actions">
-              <a class="btn btn-primary" href="#launch">Join the launch list</a>
-              <a class="btn btn-secondary" href="#demo">Try the shredder demo</a>
+              <a class="btn btn-primary" href="#demo">Try a demo shred</a>
+              <a class="btn btn-secondary" href="#launch">Join early access</a>
             </div>
 
-            <ul class="micro-points">
-              <li>Anonymous by default</li>
-              <li>Fast, satisfying, and slightly unhinged</li>
-              <li>Built for laughs, closure, and internet catharsis</li>
+            <ul class="value-list">
+              <li><strong>Fast:</strong> no essays, no account, no emotional homework</li>
+              <li><strong>Funny:</strong> just enough drama to make a screen recording worth sending</li>
+              <li><strong>Safe-ish:</strong> no names, no identifying details, no revenge nonsense</li>
             </ul>
           </div>
 
           <div class="hero-stage reveal" id="demo" aria-label="Interactive Secret Shredder demo">
-            <div class="status-bar">
-              <span class="status-pill live">Anonymous ritual</span>
-              <span class="status-pill">Ridiculously satisfying</span>
-              <span class="status-pill">Made for bad decisions</span>
+            <div class="status-bar" aria-label="Product highlights">
+              <span class="badge badge-soft">Theatrical closure</span>
+              <span class="badge badge-soft">Multiple fates</span>
+              <span class="badge badge-soft">Unreasonably watchable</span>
             </div>
 
-            <div class="machine-frame">
+            <div class="machine-frame" data-mode="classic">
               <div class="machine-top">
                 <div class="machine-screen">
-                  <span class="machine-screen-label">shred status</span>
-                  <strong id="machineStatus">Awaiting confession</strong>
+                  <span class="machine-screen-label">machine status</span>
+                  <strong id="machineStatus">Standing by for nonsense</strong>
                 </div>
-                <div class="price-chip">from $2 / shred</div>
+                <div class="price-chip">from $2 / send-off</div>
               </div>
 
-              <div class="shredder-card">
+              <div class="mode-panel">
+                <div>
+                  <p class="panel-kicker">Choose a send-off</p>
+                  <p class="panel-note">Modes are controls. Badges are not. We’re civilised now.</p>
+                </div>
+                <div class="mode-tabs" role="tablist" aria-label="Shred styles">
+                  <button class="mode-tab active" type="button" role="tab" aria-selected="true" data-mode="classic">Classic shred</button>
+                  <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="crosscut">Cross-cut</button>
+                  <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="incinerate">Incinerate</button>
+                  <button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="yeet">Yeet to void</button>
+                </div>
+              </div>
+
+              <div class="shredder-card" id="shredderCard">
+                <div class="machine-face">
+                  <span></span><span></span><span></span>
+                </div>
                 <div class="paper-slot"></div>
                 <div class="shredder-glow"></div>
                 <div class="paper-stack"></div>
                 <div class="paper" id="paper" aria-live="polite">
-                  <span class="paper-kicker">confidential submission</span>
-                  <p id="secret-preview">“I waved back at someone who absolutely wasn’t waving at me.”</p>
+                  <span class="paper-kicker">confidential stupidity</span>
+                  <p id="secretPreview">“I waved back at someone who absolutely weren’t waving at me.”</p>
                   <div class="paper-meta">
                     <span>anonymous</span>
                     <span>one-time ritual</span>
-                    <span>queued for destruction</span>
+                    <span id="paperModeLabel">classic shred armed</span>
                   </div>
                 </div>
                 <div class="blade-row"></div>
+                <div class="crosscut-grid" id="crosscutGrid"></div>
                 <div class="shred-strip-bed" id="stripBed"></div>
+                <div class="ash-bed" id="ashBed"></div>
+                <div class="void-burst" id="voidBurst"></div>
                 <div class="confetti" id="confetti"></div>
               </div>
 
               <div class="demo-panel">
-                <label class="field-label" for="secretInput">Type a confession</label>
+                <label class="field-label" for="secretInput">Your harmless little regret</label>
                 <textarea
                   id="secretInput"
                   maxlength="220"
@@ -110,11 +136,11 @@
                 ></textarea>
                 <div class="demo-meta">
                   <span id="charCount">0 / 220</span>
-                  <span>No names. No identifying details. Keep it spicy, not dangerous.</span>
+                  <span>Keep it funny. Leave out names, threats, doxxing, and genuinely dark stuff.</span>
                 </div>
                 <div class="demo-actions">
-                  <button class="btn btn-primary" id="shredButton" type="button">Shred this secret</button>
-                  <button class="btn btn-secondary" id="sampleButton" type="button">Load another sample</button>
+                  <button class="btn btn-primary" id="shredButton" type="button">Send it off</button>
+                  <button class="btn btn-secondary" id="sampleButton" type="button">Load a sample</button>
                 </div>
               </div>
             </div>
@@ -122,103 +148,82 @@
         </div>
       </section>
 
-      <section class="trust wrap reveal">
+      <section class="proof wrap reveal">
         <article>
-          <span>01</span>
-          <h3>Type the thing you regret</h3>
-          <p>A text, a social misfire, a brutal overshare, or one of those memories that still wakes up at 2am.</p>
+          <span class="proof-number">01</span>
+          <h3>Instantly gets the joke</h3>
+          <p>No tutorial required. Type the thing. Pick a fate. Enjoy the ceremony.</p>
         </article>
         <article>
-          <span>02</span>
-          <h3>Feed it to the machine</h3>
-          <p>Pick a destruction ritual, hit the button, and let the internet do something deeply unnecessary on your behalf.</p>
+          <span class="proof-number">02</span>
+          <h3>Looks good on camera</h3>
+          <p>The ritual is designed to feel clip-worthy, not like a form wrapped around a gimmick.</p>
         </article>
         <article>
-          <span>03</span>
-          <h3>Watch it die beautifully</h3>
-          <p>Because closure is good, but theatrical closure is better.</p>
+          <span class="proof-number">03</span>
+          <h3>Polished enough to brag about</h3>
+          <p>The joke lands harder when the machine looks like it cost money.</p>
         </article>
       </section>
 
-      <section class="ritual wrap reveal" id="ritual">
+      <section class="how wrap reveal" id="how">
         <div class="section-heading centered">
-          <p class="eyebrow">the ritual</p>
-          <h2>The world's tiniest emotional support machine</h2>
+          <p class="eyebrow">how it works</p>
+          <h2>One tiny act of highly unnecessary closure</h2>
           <p>
-            Not therapy. Not advice. Not forgiveness. Just one tiny, ridiculous moment of digital closure
-            for the things you wish you could un-text, un-post, or un-live.
+            This is not therapy and it’s not confession in the spiritual sense. It’s a short,
+            stylish little send-off for low-stakes social damage.
           </p>
         </div>
 
         <div class="ritual-grid">
           <article>
-            <strong>1. Confess it</strong>
-            <p>Keep it short. Keep it anonymous. Keep names and identifying details out of it.</p>
+            <strong>1. Type the incident</strong>
+            <p>Late-night text. Meeting blunder. Social wobble. The kind of thing that should not still be with you.</p>
           </article>
           <article>
-            <strong>2. Choose your destruction</strong>
-            <p>Some regrets deserve a clean office shred. Others deserve flames, chaos, or a full digital exorcism.</p>
+            <strong>2. Choose the fate</strong>
+            <p>Clean office shred, tiny chaos squares, ceremonial fire, or a complete launch into the digital abyss.</p>
           </article>
           <article>
-            <strong>3. Feel weirdly better</strong>
-            <p>The point is simple: one satisfying little ritual that says, “right, that’s enough of that.”</p>
+            <strong>3. Enjoy the overkill</strong>
+            <p>You’re here for the feeling that a delete button simply refused to provide.</p>
           </article>
         </div>
       </section>
 
-      <section class="architecture wrap reveal">
+      <section class="modes wrap reveal">
         <div class="section-heading centered">
-          <p class="eyebrow">why people love it</p>
-          <h2>Funny enough to share. Satisfying enough to repeat.</h2>
+          <p class="eyebrow">destruction styles</p>
+          <h2>Different regrets deserve different levels of theatre</h2>
         </div>
-
         <div class="stack-grid">
           <article>
-            <h3>Ridiculously watchable</h3>
-            <p>The destruction moment is the product. The more satisfying it feels, the more people want to try it again and show someone else.</p>
+            <h3>Classic shred</h3>
+            <p>For ordinary social crimes. Straight through the rollers. Crisp, satisfying, efficient.</p>
           </article>
           <article>
-            <h3>Instantly understandable</h3>
-            <p>You don't need a tutorial. Type the regret, feed the machine, watch it vanish. Done.</p>
+            <h3>Cross-cut</h3>
+            <p>For messages so cursed they deserve to come back as tiny confetti squares.</p>
           </article>
           <article>
-            <h3>Built for screenshots and clips</h3>
-            <p>Every interaction should look good enough to post, stitch, react to, and send to a mate with “this is so dumb I need it.”</p>
+            <h3>Incinerate</h3>
+            <p>For spiritually combustible material. Warm glow. Dramatic fade. Zero survivors.</p>
           </article>
           <article>
-            <h3>Private by default</h3>
-            <p>No essays. No life story. No names. Just a weirdly elegant little ritual for moving on.</p>
+            <h3>Yeet to void</h3>
+            <p>For things that should leave Earth’s atmosphere and never be spoken of again.</p>
           </article>
-        </div>
-      </section>
-
-      <section class="logo-direction wrap reveal">
-        <div class="logo-copy">
-          <p class="eyebrow">meet the machine</p>
-          <h2>A smug little paper-eating menace with excellent taste.</h2>
-          <p>
-            Secret Shredder works best when it feels like a character, not just a tool — polished, slightly theatrical,
-            and memorable enough that one glance tells the whole story.
-          </p>
-          <ul>
-            <li>Distinctive enough to become iconic</li>
-            <li>Expressive enough to animate beautifully</li>
-            <li>Clean enough to feel premium, not childish</li>
-            <li>Perfect for clips, press images, and future 3D moments</li>
-          </ul>
-        </div>
-        <div class="logo-card" aria-label="Secret Shredder mascot mark">
-          <img src="./assets/logo-mark.svg" alt="Secret Shredder mascot logo" />
-          <p>Your tiny luxury machine for closure, chaos, and the occasional social-media exorcism.</p>
         </div>
       </section>
 
       <section class="launch wrap reveal" id="launch">
         <div class="section-heading centered">
           <p class="eyebrow">early access</p>
-          <h2>Want first crack at the shredder?</h2>
+          <h2>Get first dibs on the machine</h2>
           <p>
-            Join the list and you’ll be first to know when new destruction styles, launch drops, and deeply unnecessary internet catharsis go live.
+            Join the list for launch news, new send-off styles, and any future upgrades to the
+            world’s most unnecessary little closure device.
           </p>
         </div>
 
@@ -229,12 +234,12 @@
               <input type="email" name="email" placeholder="you@somewhere.com" required />
             </label>
             <label>
-              What would you most likely shred?
+              What would you probably use it for?
               <select name="category" required>
                 <option value="">Choose one</option>
                 <option>Late-night text regret</option>
                 <option>Social cringe incident</option>
-                <option>Workplace chaos</option>
+                <option>Workplace foot-in-mouth moment</option>
                 <option>Church-safe guilt</option>
                 <option>Petty thought I should not post</option>
               </select>
@@ -242,12 +247,12 @@
           </div>
           <label>
             Optional note
-            <input type="text" name="note" maxlength="120" placeholder="What would make this irresistible?" />
+            <input type="text" name="note" maxlength="120" placeholder="What would make this absurdly irresistible?" />
           </label>
           <div class="form-actions">
-            <button class="btn btn-primary" type="submit">Get early access</button>
+            <button class="btn btn-primary" type="submit">Join early access</button>
             <p class="form-note" id="formFeedback">
-              No spam. No nonsense. Just a heads-up when the shredder is ready for fresh victims.
+              No spam. Just a polite tap on the shoulder when the machine opens for business.
             </p>
           </div>
         </form>
@@ -256,24 +261,24 @@
       <section class="faq wrap reveal" id="faq">
         <div class="section-heading centered">
           <p class="eyebrow">faq</p>
-          <h2>Questions from people with a lot going on</h2>
+          <h2>Reasonable questions about an unreasonable product</h2>
         </div>
         <div class="faq-list">
           <details>
             <summary>Is this anonymous?</summary>
-            <p>That’s the goal. Keep names, identifying details, and anything genuinely risky out of the machine.</p>
+            <p>That’s the ambition. Keep real names and identifying details out of the machine and you’ll be using it as intended.</p>
           </details>
           <details>
             <summary>Is this therapy?</summary>
-            <p>Absolutely not. It’s a tiny internet ritual for closure, comedy, and emotional spring cleaning.</p>
+            <p>No. It’s a stylish joke-product with a weirdly satisfying ritual attached.</p>
           </details>
           <details>
-            <summary>What kinds of things should I shred?</summary>
-            <p>Regrets, cringe memories, texts you shouldn’t have sent, social disasters, petty thoughts, and any other harmless little ghosts.</p>
+            <summary>What belongs in Secret Shredder?</summary>
+            <p>Harmless regrets, low-stakes cringe, texts you wish could be unsent, petty thoughts you should never publish, and similar social debris.</p>
           </details>
           <details>
-            <summary>What kinds of things should not go in here?</summary>
-            <p>Real names, identifying details, threats, illegal stuff, revenge content, or anything that could hurt an actual person.</p>
+            <summary>What definitely does not belong in here?</summary>
+            <p>Real names, identifying details, threats, illegal material, revenge content, or anything meant to harm a real person.</p>
           </details>
         </div>
       </section>
@@ -282,7 +287,7 @@
     <footer class="site-footer wrap">
       <div>
         <p class="footer-brand">Secret Shredder</p>
-        <p>A tiny premium internet ritual for secrets, cringe, regret, and closure.</p>
+        <p>A tiny luxury machine for terrible little memories.</p>
       </div>
       <div class="footer-links">
         <a href="https://secretshredder.com">secretshredder.com</a>
