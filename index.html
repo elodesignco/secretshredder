@@ -6,12 +6,12 @@
     <title>Secret Shredder — Put it in the machine.</title>
     <meta
       name="description"
-      content="A ridiculously polished ritual for harmless regrets. Type the cringe, choose a send-off, and watch the evidence disappear with unreasonable style."
+      content="A ridiculously polished ritual for harmless regrets. Try the free demo, or unlock one real paid shred through Stripe checkout."
     />
     <meta property="og:title" content="Secret Shredder — Put it in the machine." />
     <meta
       property="og:description"
-      content="Type it. Pick a send-off. Watch the evidence vanish with theatre."
+      content="Try the demo. Unlock the real paid shred when you're ready."
     />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://secretshredder.com/assets/logo-mark.svg" />
@@ -42,7 +42,7 @@
       </a>
       <nav>
         <a href="#demo">Demo</a>
-        <a href="#how">How it works</a>
+        <a href="#paid">Paid shred</a>
         <a href="#faq">FAQ</a>
         <a class="btn btn-ghost" href="#launch">Join early access</a>
       </nav>
@@ -53,35 +53,35 @@
         <div class="hero-shell">
           <div class="hero-copy reveal">
             <div class="meta-row">
-              <span class="badge badge-live">Anonymous-ish by design</span>
-              <span class="badge">For harmless cringe only</span>
+              <span class="badge badge-live">Harmless cringe only</span>
+              <span class="badge">Demo first, paid unlock second</span>
             </div>
             <p class="eyebrow">tiny ritual • luxury nonsense • no lectures</p>
             <h1>Put it in the machine.</h1>
             <p class="lede">
-              Secret Shredder is a ridiculously polished little ceremony for the things you wish had
-              never left your mouth, your phone, or your frontal lobe. Type the regret, choose a
-              send-off, and watch the evidence disappear with absurdly satisfying flair.
+              Secret Shredder is a ridiculously polished little ceremony for harmless regrets.
+              Try the free demo to see the spectacle, then unlock one real paid shred through
+              Stripe when you want the full send-off.
             </p>
 
             <div class="hero-actions">
-              <a class="btn btn-primary" href="#demo">Try a demo shred</a>
-              <button class="btn btn-secondary" id="checkoutButton" type="button">Reserve your first shred</button>
+              <a class="btn btn-primary" href="#demo">Try the free demo</a>
+              <button class="btn btn-secondary" id="checkoutButton" type="button">Buy one paid shred</button>
               <a class="btn btn-ghost" href="#launch">Join early access</a>
             </div>
 
             <ul class="value-list">
-              <li><strong>Instant:</strong> no account, no essay, no emotional admin</li>
-              <li><strong>Watchable:</strong> the send-off feels good enough to replay on purpose</li>
+              <li><strong>Free demo:</strong> see the machine work before you pay</li>
+              <li><strong>Paid unlock:</strong> the real shred stays locked until Stripe confirms payment</li>
               <li><strong>Low-stakes only:</strong> keep out names, threats, revenge, and real harm</li>
             </ul>
           </div>
 
           <div class="hero-stage reveal" id="demo" aria-label="Interactive Secret Shredder demo">
             <div class="status-bar" aria-label="Product highlights">
-              <span class="badge badge-soft">Tiny luxury ritual</span>
+              <span class="badge badge-soft">Free demo preview</span>
+              <span class="badge badge-soft" id="paidStatusBadge">Paid shred locked</span>
               <span class="badge badge-soft">Four send-off styles</span>
-              <span class="badge badge-soft">Dangerously screen-recordable</span>
             </div>
 
             <div class="machine-frame" data-mode="classic">
@@ -90,13 +90,13 @@
                   <span class="machine-screen-label">machine status</span>
                   <strong id="machineStatus">Standing by for nonsense</strong>
                 </div>
-                <div class="price-chip">Launch offer: one dramatic send-off</div>
+                <div class="price-chip">One paid shred unlocks after checkout</div>
               </div>
 
               <div class="mode-panel">
                 <div>
                   <p class="panel-kicker">Choose a send-off</p>
-                  <p class="panel-note">Pick the level of theatre your little social crime deserves.</p>
+                  <p class="panel-note">Use the same machine for the free demo preview or your paid shred.</p>
                 </div>
                 <div class="mode-tabs" role="tablist" aria-label="Shred styles">
                   <button class="mode-tab active" type="button" role="tab" aria-selected="true" data-mode="classic">
@@ -163,9 +163,23 @@
                   <span id="charCount">0 / 220</span>
                   <span>Keep it funny. Leave out names, threats, doxxing, and genuinely dark stuff.</span>
                 </div>
-                <div class="demo-actions">
-                  <button class="btn btn-primary" id="shredButton" type="button">Send it through the rollers</button>
-                  <button class="btn btn-secondary" id="sampleButton" type="button">Load a sample</button>
+                <div class="flow-grid">
+                  <div class="flow-card">
+                    <p class="flow-label">Free demo</p>
+                    <p class="flow-copy">See the animation right now. This does not unlock the paid shred.</p>
+                    <div class="demo-actions">
+                      <button class="btn btn-primary" id="shredButton" type="button">Run the demo shred</button>
+                      <button class="btn btn-secondary" id="sampleButton" type="button">Load a sample</button>
+                    </div>
+                  </div>
+                  <div class="flow-card" id="paid">
+                    <p class="flow-label">Real paid shred</p>
+                    <p class="flow-copy" id="paidAccessNote">The full paid shred stays locked until Stripe sends you back with a confirmed paid session.</p>
+                    <div class="demo-actions">
+                      <button class="btn btn-secondary" id="launchCheckoutButton" type="button">Unlock with Stripe checkout</button>
+                      <button class="btn btn-primary" id="paidShredButton" type="button" disabled>Use my paid shred</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -176,25 +190,25 @@
       <section class="proof wrap reveal">
         <article>
           <span class="proof-number">01</span>
-          <h3>The joke lands instantly</h3>
-          <p>Type the thing. Pick the fate. Enjoy the completely unnecessary closure.</p>
+          <h3>The free demo is honest</h3>
+          <p>Try the machine first. The preview is there to show the bit, not to give away the paid unlock.</p>
         </article>
         <article>
           <span class="proof-number">02</span>
-          <h3>Built to be replayed</h3>
-          <p>The send-off is the product. That’s why it feels more like a toy ritual than a form.</p>
+          <h3>The paid path is explicit</h3>
+          <p>Checkout starts at Stripe, and the real shred only unlocks after Stripe sends back a verified paid session.</p>
         </article>
         <article>
           <span class="proof-number">03</span>
-          <h3>Stylish enough to share</h3>
-          <p>When the machine looks expensive, the silliness somehow gets even better.</p>
+          <h3>The joke still lands</h3>
+          <p>Even with the funnel cleaned up, the send-off stays playful, polished, and screen-recordable.</p>
         </article>
       </section>
 
       <section class="how wrap reveal" id="how">
         <div class="section-heading centered">
           <p class="eyebrow">how it works</p>
-          <h2>One tiny act of delightfully needless closure</h2>
+          <h2>Demo first. Paid shred second.</h2>
           <p>
             This is not therapy, penance, or a life plan. It’s a short, stylish send-off for
             harmless social debris and low-stakes regret.
@@ -203,16 +217,16 @@
 
         <div class="ritual-grid">
           <article>
-            <strong>1. Type the incident</strong>
-            <p>Late-night text. Meeting blunder. Weird interaction. The thing your brain keeps replaying for sport.</p>
+            <strong>1. Try the free demo</strong>
+            <p>Type the harmless incident, choose a style, and preview the machine before spending a cent.</p>
           </article>
           <article>
-            <strong>2. Choose the spectacle</strong>
-            <p>Go clean and corporate, cut it into tiny squares, burn it with ceremony, or launch it into tasteful oblivion.</p>
+            <strong>2. Pay to unlock the real shred</strong>
+            <p>Use Stripe checkout when you want the full paid send-off. The machine stays locked until payment is confirmed.</p>
           </article>
           <article>
-            <strong>3. Feel better than delete ever managed</strong>
-            <p>You are not here for productivity. You are here for theatrical emotional housekeeping.</p>
+            <strong>3. Come back and use it</strong>
+            <p>After a successful return from Stripe, the paid shred unlocks on this device so you can run the real send-off.</p>
           </article>
         </div>
       </section>
@@ -245,10 +259,10 @@
       <section class="launch wrap reveal" id="launch">
         <div class="section-heading centered">
           <p class="eyebrow">early access</p>
-          <h2>Get first dibs on the machine</h2>
+          <h2>Join the list for launch news</h2>
           <p>
-            Join the list for launch news, fresh send-off styles, and the moment this ridiculous
-            little ritual becomes available in public.
+            Join the early access list for launch updates, new send-off styles, and the moment the
+            machine is broadly open for business.
           </p>
         </div>
 
@@ -276,7 +290,6 @@
           </label>
           <div class="form-actions form-actions-stacked">
             <button class="btn btn-primary" id="launchSubmitButton" type="submit">Join early access</button>
-            <button class="btn btn-secondary" id="launchCheckoutButton" type="button">Skip the queue and reserve a paid shred</button>
             <p class="form-note" id="formFeedback">
               No spam. Just a polite tap on the shoulder when the machine opens for business.
             </p>
@@ -291,16 +304,16 @@
         </div>
         <div class="faq-list">
           <details>
+            <summary>What is free, and what is paid?</summary>
+            <p>The demo preview is free. The real shred stays locked until Stripe checkout succeeds and the return session is verified.</p>
+          </details>
+          <details>
             <summary>Is this anonymous?</summary>
             <p>That’s the goal. Keep real names and identifying details out of the machine and you’ll be using it as intended.</p>
           </details>
           <details>
             <summary>Is this therapy?</summary>
             <p>No. It’s a stylish joke product with an oddly satisfying little ritual attached.</p>
-          </details>
-          <details>
-            <summary>What belongs in Secret Shredder?</summary>
-            <p>Harmless regrets, low-stakes cringe, texts you wish could be unsent, petty thoughts you should never publish, and similar social debris.</p>
           </details>
           <details>
             <summary>What definitely does not belong in here?</summary>

@@ -5,6 +5,7 @@ const sampleButton = document.getElementById('sampleButton');
 const checkoutButton = document.getElementById('checkoutButton');
 const launchCheckoutButton = document.getElementById('launchCheckoutButton');
 const launchSubmitButton = document.getElementById('launchSubmitButton');
+const paidShredButton = document.getElementById('paidShredButton');
 const paper = document.getElementById('paper');
 const confetti = document.getElementById('confetti');
 const stripBed = document.getElementById('stripBed');
@@ -20,12 +21,14 @@ const machineFrame = document.querySelector('.machine-frame');
 const shredderCard = document.getElementById('shredderCard');
 const paperModeLabel = document.getElementById('paperModeLabel');
 const siteBanner = document.getElementById('siteBanner');
+const paidAccessNote = document.getElementById('paidAccessNote');
+const paidStatusBadge = document.getElementById('paidStatusBadge');
 
 const DEFAULT_SECRET = '“I waved back at someone who absolutely weren’t waving at me.”';
 const SAMPLE_SECRETS = [
   '“I practised an argument in the shower and still lost it in real life.”',
   '“I accidentally sent the thumbs-up to a paragraph that deserved compassion.”',
-  '“I said \"love you\" at the end of a work call and simply kept living.”',
+  '“I said "love you" at the end of a work call and simply kept living.”',
   '“I checked whether my own message had been seen four times in ninety seconds.”',
   '“I laughed at a joke I did not understand because everyone else looked committed.”'
 ];
@@ -36,7 +39,8 @@ const MODES = {
     status: 'Classic shred selected',
     running: 'Feeding the rollers',
     complete: 'Gone in elegant little strips',
-    button: 'Send it through the rollers',
+    demoButton: 'Run the demo shred',
+    paidButton: 'Use my paid shred',
     cardState: 'is-classic'
   },
   crosscut: {
@@ -44,7 +48,8 @@ const MODES = {
     status: 'Cross-cut selected',
     running: 'Cross-cutting the evidence',
     complete: 'Reduced to suspiciously festive squares',
-    button: 'Cross-cut this disaster',
+    demoButton: 'Run the demo cross-cut',
+    paidButton: 'Use my paid cross-cut',
     cardState: 'is-crosscut'
   },
   incinerate: {
@@ -52,7 +57,8 @@ const MODES = {
     status: 'Incinerate selected',
     running: 'Applying dramatic fire',
     complete: 'Reduced to warm ash and poor choices',
-    button: 'Burn it with ceremony',
+    demoButton: 'Run the demo incineration',
+    paidButton: 'Use my paid incineration',
     cardState: 'is-incinerate'
   },
   yeet: {
@@ -60,7 +66,8 @@ const MODES = {
     status: 'Void launch selected',
     running: 'Opening a tasteful little void',
     complete: 'Launched into the digital abyss',
-    button: 'Yeet it into the void',
+    demoButton: 'Run the demo void launch',
+    paidButton: 'Use my paid void launch',
     cardState: 'is-yeet'
   }
 };
@@ -71,6 +78,11 @@ let currentMode = 'classic';
 let runtimeConfig = {
   checkoutEnabled: true,
   waitlistEnabled: true
+};
+let paidAccess = {
+  unlocked: false,
+  sessionId: '',
+  paymentStatus: ''
 };
 
 function updatePreview(text) {
@@ -222,6 +234,27 @@ function resetPaper() {
   shredderCard.classList.remove('is-classic', 'is-crosscut', 'is-incinerate', 'is-yeet');
 }
 
+function syncPaidUi() {
+  const unlocked = Boolean(paidAccess.unlocked);
+  document.body.classList.toggle('paid-unlocked', unlocked);
+
+  if (paidStatusBadge) {
+    paidStatusBadge.textContent = unlocked ? 'Paid shred unlocked' : 'Paid shred locked';
+    paidStatusBadge.classList.toggle('badge-live', unlocked);
+    paidStatusBadge.classList.toggle('badge-soft', !unlocked);
+  }
+
+  if (paidAccessNote) {
+    paidAccessNote.textContent = unlocked
+      ? 'Payment confirmed. Your full shred is unlocked on this device for this return session.'
+      : 'The full paid shred stays locked until Stripe sends you back with a confirmed paid session.';
+  }
+
+  if (paidShredButton) {
+    paidShredButton.disabled = !unlocked;
+  }
+}
+
 function applyMode(mode) {
   currentMode = mode;
   modeTabs.forEach((tab) => {
@@ -232,7 +265,8 @@ function applyMode(mode) {
   machineFrame.dataset.mode = mode;
   shredderCard.dataset.mode = mode;
   paperModeLabel.textContent = MODES[mode].label;
-  button.textContent = MODES[mode].button;
+  if (button) button.textContent = MODES[mode].demoButton;
+  if (paidShredButton) paidShredButton.textContent = MODES[mode].paidButton;
   setStatus(MODES[mode].status);
 }
 
@@ -244,8 +278,13 @@ function finishShred() {
   shredding = false;
 }
 
-function shred() {
+function runShred({ source = 'demo' } = {}) {
   if (shredding) return;
+  if (source === 'paid' && !paidAccess.unlocked) {
+    setBanner('The full paid shred is still locked. Finish checkout first, then come back through the Stripe success return.', 'error');
+    return;
+  }
+
   shredding = true;
 
   const text = input.value.trim() || DEFAULT_SECRET;
@@ -255,7 +294,7 @@ function shred() {
   shredderCard.classList.add('is-busy', MODES[currentMode].cardState);
   void paper.offsetWidth;
 
-  setStatus(MODES[currentMode].running);
+  setStatus(source === 'paid' ? `${MODES[currentMode].running} — paid session` : `${MODES[currentMode].running} — demo preview`);
 
   if (currentMode === 'classic') {
     paper.classList.add('shredding-classic');
@@ -281,7 +320,12 @@ function shred() {
     setTimeout(() => spawnConfetti(['#8d7bff', '#cbc2ff', '#ffffff']), 280);
   }
 
-  setTimeout(finishShred, 1800);
+  setTimeout(() => {
+    finishShred();
+    if (source === 'paid') {
+      setBanner('Paid shred complete. Nicely done.', 'success');
+    }
+  }, 1800);
 }
 
 function loadSample() {
@@ -378,20 +422,77 @@ async function submitLaunchForm(event) {
   }
 }
 
-function handleReturnState() {
+function rememberPaidAccess(sessionId, paymentStatus) {
+  paidAccess = {
+    unlocked: true,
+    sessionId,
+    paymentStatus
+  };
+  try {
+    sessionStorage.setItem('secretshredder-paid-access', JSON.stringify(paidAccess));
+  } catch (_) {
+    // ignore session storage issues
+  }
+  syncPaidUi();
+}
+
+function loadStoredPaidAccess() {
+  try {
+    const stored = JSON.parse(sessionStorage.getItem('secretshredder-paid-access') || 'null');
+    if (stored?.unlocked) {
+      paidAccess = stored;
+    }
+  } catch (_) {
+    // ignore session storage issues
+  }
+  syncPaidUi();
+}
+
+async function verifyCheckoutReturn(sessionId) {
+  const response = await fetch(`/api/checkout-status?session_id=${encodeURIComponent(sessionId)}`);
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok || data.ok === false) {
+    throw new Error(data.error || 'We could not verify that payment.');
+  }
+
+  if (!data.paid) {
+    throw new Error('Stripe returned, but the payment is not marked paid yet.');
+  }
+
+  rememberPaidAccess(data.sessionId, data.paymentStatus);
+  setBanner('Payment confirmed. Your full paid shred is now unlocked.', 'success');
+}
+
+async function handleReturnState() {
   const params = new URLSearchParams(window.location.search);
   const state = params.get('checkout');
+  const sessionId = params.get('session_id');
+
   if (!state) return;
 
   if (state === 'success') {
-    setBanner('Payment received. Your first dramatic send-off is booked.', 'success');
+    if (sessionId) {
+      try {
+        await verifyCheckoutReturn(sessionId);
+      } catch (error) {
+        paidAccess = { unlocked: false, sessionId: '', paymentStatus: '' };
+        syncPaidUi();
+        setBanner(error.message || 'Payment return could not be verified.', 'error');
+      }
+    } else {
+      paidAccess = { unlocked: false, sessionId: '', paymentStatus: '' };
+      syncPaidUi();
+      setBanner('Stripe sent you back without a session reference, so the paid shred stayed locked.', 'error');
+    }
   }
 
   if (state === 'cancelled') {
-    setBanner('Checkout was cancelled. The machine remains patient.', 'info');
+    setBanner('Checkout was cancelled. The paid shred remains locked until payment is completed.', 'info');
   }
 
   params.delete('checkout');
+  params.delete('session_id');
   const nextUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}${window.location.hash}`;
   window.history.replaceState({}, '', nextUrl);
 }
@@ -407,10 +508,11 @@ async function loadConfig() {
   }
 }
 
-button?.addEventListener('click', shred);
+button?.addEventListener('click', () => runShred({ source: 'demo' }));
 sampleButton?.addEventListener('click', loadSample);
 checkoutButton?.addEventListener('click', () => startCheckout(checkoutButton));
 launchCheckoutButton?.addEventListener('click', () => startCheckout(launchCheckoutButton));
+paidShredButton?.addEventListener('click', () => runShred({ source: 'paid' }));
 launchForm?.addEventListener('submit', submitLaunchForm);
 
 modeTabs.forEach((tab) => {
@@ -437,8 +539,14 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
-updatePreview(DEFAULT_SECRET);
-updateCount();
-applyMode(currentMode);
-handleReturnState();
-loadConfig();
+async function init() {
+  updatePreview(DEFAULT_SECRET);
+  updateCount();
+  applyMode(currentMode);
+  loadStoredPaidAccess();
+  await handleReturnState();
+  await loadConfig();
+  syncPaidUi();
+}
+
+init();

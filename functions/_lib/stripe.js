@@ -25,7 +25,7 @@ export async function createCheckoutSession({ env, requestUrl, secretText, mode,
 
   const params = new URLSearchParams();
   params.set('mode', env.STRIPE_MODE || 'payment');
-  params.set('success_url', `${baseUrl}${safeReturnPath}?checkout=success`);
+  params.set('success_url', `${baseUrl}${safeReturnPath}?checkout=success&session_id={CHECKOUT_SESSION_ID}`);
   params.set('cancel_url', `${baseUrl}${safeReturnPath}?checkout=cancelled`);
   params.set('line_items[0][price]', stripePriceId);
   params.set('line_items[0][quantity]', '1');
@@ -82,6 +82,27 @@ async function computeHmac(secret, payload) {
   );
   const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(payload));
   return [...new Uint8Array(sig)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
+}
+
+export async function fetchCheckoutSession({ env, sessionId }) {
+  const stripeSecretKey = required(env.STRIPE_SECRET_KEY, 'STRIPE_SECRET_KEY');
+  const id = String(sessionId || '').trim();
+  if (!id) {
+    throw new Error('Missing Stripe session id.');
+  }
+
+  const response = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(id)}`, {
+    headers: {
+      Authorization: `Bearer ${stripeSecretKey}`
+    }
+  });
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data?.error?.message || 'Stripe session lookup failed.');
+  }
+
+  return data;
 }
 
 export async function verifyStripeWebhookSignature({ payload, signatureHeader, secret }) {

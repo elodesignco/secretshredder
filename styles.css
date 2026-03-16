@@ -720,6 +720,31 @@ p {
   display: grid;
   gap: 12px;
 }
+.flow-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.flow-card {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+}
+.flow-label {
+  margin: 0;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--accent-3);
+  font-weight: 800;
+}
+.flow-copy {
+  margin: 0;
+  font-size: 0.95rem;
+}
 .field-label {
   font-size: 0.82rem;
   text-transform: uppercase;
@@ -863,7 +888,8 @@ summary::marker { color: var(--accent-2); }
   .proof,
   .ritual-grid,
   .stack-grid,
-  .mode-tabs {
+  .mode-tabs,
+  .flow-grid {
     grid-template-columns: 1fr;
   }
 

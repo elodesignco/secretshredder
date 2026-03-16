@@ -6,7 +6,9 @@
 - Demo shred interaction with redesigned mode controls and more obvious animation states
 - Launch form posts to `/api/waitlist`
 - Paid CTA posts to `/api/create-checkout-session`
-- Query-string success/cancel handling for Stripe return flow
+- Separate free demo vs paid shred UI with honest CTA labels
+- Stripe return verification via `session_id` lookup before paid access is unlocked
+- Session-scoped paid access on the front-end after successful verification
 - Friendly inline UI states for loading, success, and failure
 
 ### Cloudflare-friendly backend
@@ -14,6 +16,7 @@ Implemented with Cloudflare Pages Functions / Workers-compatible request handler
 - `functions/api/config.js` — exposes safe runtime capability flags to the front-end
 - `functions/api/create-checkout-session.js` — creates a Stripe Checkout session via Stripe's REST API
 - `functions/api/waitlist.js` — validates and forwards launch signups via Brevo's HTTP email API
+- `functions/api/checkout-status.js` — verifies a Stripe Checkout return by looking up the session server-side
 - `functions/api/stripe-webhook.js` — verifies webhook signatures and provides the event handling entrypoint
 - `functions/_lib/*` — shared config, Stripe, email, and safety helpers
 
@@ -39,9 +42,11 @@ Direct SMTP is awkward inside edge runtimes. For Cloudflare deployment, the reli
 2. Front-end includes the current page path so the return lands back on the page that launched checkout
 3. Worker validates the payload and creates a Checkout session
 4. Browser redirects to Stripe Checkout
-5. Stripe returns to the originating page, e.g. `/?checkout=success` or `/test/?checkout=success`
-6. Stripe webhook posts to `/api/stripe-webhook`
-7. Webhook signature is verified before any event handling
+5. Stripe returns to the originating page with `checkout=success&session_id=...`
+6. Front-end calls `/api/checkout-status?session_id=...`
+7. Worker looks up the Checkout session server-side and only unlocks the paid shred when Stripe reports a paid/complete session
+8. Stripe webhook posts to `/api/stripe-webhook`
+9. Webhook signature is verified before any event handling
 
 ## Waitlist flow
 1. Front-end calls `/api/waitlist`
